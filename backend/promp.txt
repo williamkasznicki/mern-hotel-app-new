@@ -1,0 +1,2 @@
+- when deleteRoom you should also softDelete all roomNumbers that associated with that Room too
+- create the logic for me that check availableRoomNumber in myBookingController.ts (of course if you suggest that we should remove the time portion I will agree with that, all on you design what the best)
