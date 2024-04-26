@@ -38,7 +38,7 @@ const ManageHotelForm = ({
   editMode: initialEditMode = true,
 }: Props) => {
   const formMethods = useForm<HotelFormData>();
-  const { handleSubmit, reset, watch } = formMethods;
+  const { handleSubmit, reset } = formMethods;
   const [editMode, setEditMode] = useState(initialEditMode);
   const location = useLocation();
 
