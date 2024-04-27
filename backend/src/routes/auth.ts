@@ -1,11 +1,17 @@
 import express, { Request, Response } from 'express';
 import { check } from 'express-validator';
 import {
+  getResetPassword,
   loginUser,
   logoutUser,
   registerUser,
+  resetPassword,
 } from '../controllers/authController';
-import { verifyEmail } from '../controllers/emailController';
+import {
+  sendResetPasswordMail,
+  sendVerificationEmailManual,
+  verifyEmail,
+} from '../controllers/emailController';
 import { verifyToken } from '../middleware/auth';
 
 const router = express.Router();
@@ -41,10 +47,15 @@ router.post('/logout', logoutUser);
 
 router.get('/verify-email', verifyEmail);
 
-router.get("/validate-token", verifyToken, (req: Request, res: Response) => {
+router.post('/send-verification-email', sendVerificationEmailManual);
+
+router.post('/send-forgotPasswordMail', sendResetPasswordMail);
+
+router.get('/reset-password', getResetPassword);
+router.post('/reset-password', resetPassword);
+
+router.get('/validate-token', verifyToken, (req: Request, res: Response) => {
   res.status(200).send({ userId: req.userId });
 });
-
-
 
 export default router;

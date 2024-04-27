@@ -69,13 +69,14 @@ export const sendVerificationEmail = async (
   email: string,
   verificationLink: string
 ) => {
-  const smtpHost = getSMTPHost(email);
+  // const smtpHost = getSMTPHost(email);
+  // console.log('debug smtpHost', smtpHost);
 
   // Create a Nodemailer transporter
   const transporter = nodemailer.createTransport({
-    host: smtpHost,
+    service: 'hotmail',
     port: parseInt(process.env.SMTP_PORT as string) || 587,
-    secure: process.env.SMTP_SECURE === 'true', // Use TLS or not, true for 465 port
+    secure: process.env.SMTP_SECURE === 'true', // Use TLS or not, Set to true if using 465 port
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,
@@ -217,5 +218,98 @@ export const verifyEmail = async (req: Request, res: Response) => {
   } catch (error) {
     console.error('Error verifying email:', error);
     return res.status(500).json({ message: 'Something went wrong' });
+  }
+};
+
+export const sendVerificationEmailManual = async (
+  req: Request,
+  res: Response
+) => {
+  const { email } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const verificationToken = jwt.sign(
+      { userId: user._id },
+      process.env.JWT_SECRET_KEY as string,
+      { expiresIn: '48h' }
+    );
+    const verificationLink = `http://localhost:${process.env.PORT}/api/auth/verify-email?token=${verificationToken}`;
+    await sendVerificationEmail(user.email, verificationLink);
+
+    res.status(200).json({ message: 'Verification email sent successfully' });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Something went wrong' });
+  }
+};
+
+export const sendResetPasswordMail = async (req: Request, res: Response) => {
+  const { email } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const resetToken = jwt.sign(
+      { userId: user._id },
+      process.env.JWT_SECRET_KEY as string,
+      { expiresIn: '1h' }
+    );
+
+    const resetLink = `http://localhost:${process.env.PORT}/api/auth/reset-password?token=${resetToken}`;
+
+    // Create a Nodemailer transporter
+    const transporter = nodemailer.createTransport({
+      service: 'hotmail',
+      port: parseInt(process.env.SMTP_PORT as string) || 587,
+      secure: process.env.SMTP_SECURE === 'true',
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    });
+
+    const from: SenderAddress = {
+      name: process.env.SMTP_SENDER_NAME || '',
+      address: process.env.SMTP_SENDER_ADDRESS || '',
+    };
+
+    const mailOptions = {
+      from: from,
+      to: email,
+      subject: 'Password Reset',
+      html: `
+        <body style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f2f2f2;">
+          <div class="container" style="max-width: 600px; margin: 0 auto; background-color: #fff; padding: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+              <div class="logo" style="text-align: center; margin-bottom: 20px; background-color: #EF2C61; padding: 2px 0px 2px 0px;">
+                  <h1>Booking.com</h1>
+              </div>
+              <div class="content" style="text-align: center; margin-bottom: 30px;">
+                  <h2>Password Reset</h2>
+                  <p>Hi ${email},</p>
+                  <p>You have requested to reset your password. Please click the link below to reset your password:</p>
+                  <a href="${resetLink}" style="color: #007bff; font-size: 18px; padding: 8px; background-color: #EF2C61; border-radius: 5px; color: #000000; color: white; ">Reset Password</a>
+              </div>
+              <p style="text-align: center;">&copy; 2024 Booking.com. All rights reserved.</p>
+          </div>
+        </body>
+      `,
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    res.status(200).json({ message: 'Password reset email sent successfully' });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Something went wrong' });
   }
 };

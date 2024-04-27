@@ -22,15 +22,14 @@ const Register = () => {
   const [selectedPhone, setSelectedPhone] = useState<string>('');
 
   const getDefaultPhoneCountryCode = () => {
-
     const userLocale = navigator.language;
-  
+
     const userCountryCode = userLocale.split('-')[1];
-    
+
     const userPhoneCode = phoneCode.find(
       (phone) => phone.code === userCountryCode
     );
-    
+
     setSelectedPhone(userPhoneCode?.dial_code || phoneCode[0].dial_code);
   };
 
@@ -69,13 +68,16 @@ const Register = () => {
   };
 
   return (
-    <form className="flex flex-col gap-5 xs:px-4" onSubmit={onSubmit}>
-      <h2 className="text-3xl font-bold">Create an Account</h2>
+    <form
+      className="flex flex-col gap-5 xs:px-4 dark:bg-slate-800 p-4 rounded-md"
+      onSubmit={onSubmit}
+    >
+      <h2 className="text-3xl font-bold dark:text-white">Create an Account</h2>
       <div className="flex flex-col md:flex-row gap-5">
-        <label className="text-gray-700 text-sm font-bold flex-1">
+        <label className="text-gray-700 text-sm font-bold flex-1 dark:text-white">
           First Name
           <input
-            className="border rounded w-full py-1 px-2 font-normal border-gray-500"
+            className="border rounded w-full py-1 px-2 font-normal border-gray-500 text-gray-700"
             {...register('firstName', {
               required: 'This field is required',
               maxLength: {
@@ -88,10 +90,10 @@ const Register = () => {
             <span className="text-red-500">{errors.firstName.message}</span>
           )}
         </label>
-        <label className="text-gray-700 text-sm font-bold flex-1">
+        <label className="text-gray-700 text-sm font-bold flex-1 dark:text-white">
           Last Name
           <input
-            className="border rounded w-full py-1 px-2 font-normal border-gray-500"
+            className="border rounded w-full py-1 px-2 font-normal border-gray-500 text-gray-700"
             {...register('lastName', {
               required: 'This field is required',
               maxLength: {
@@ -107,11 +109,11 @@ const Register = () => {
       </div>
 
       <div className="grid md:grid-cols-6 xs:grid-cols-2 gap-5">
-        <label className="text-gray-700 text-sm font-bold md:col-span-3 xs:col-span-2">
+        <label className="text-gray-700 text-sm font-bold md:col-span-3 xs:col-span-2 dark:text-white">
           Email
           <input
             type="email"
-            className="border rounded w-full py-1 px-2 font-normal"
+            className="border rounded w-full py-1 px-2 font-normal text-gray-700"
             {...register('email', {
               required: 'This field is required',
               maxLength: {
@@ -125,10 +127,10 @@ const Register = () => {
           )}
         </label>
 
-        <label className="text-gray-700 text-sm font-bold md:col-span-1 xs:col-span-1">
+        <label className="text-gray-700 text-sm font-bold md:col-span-1 xs:col-span-1 dark:text-white">
           Country Code
           <select
-            className="border rounded w-full py-1 px-2 font-normal"
+            className="border rounded w-full py-1 px-2 font-normal text-gray-700"
             value={selectedPhone}
             onChange={handlePhoneChange}
           >
@@ -140,11 +142,11 @@ const Register = () => {
           </select>
         </label>
 
-        <label className="text-gray-700 text-sm font-bold md:col-span-2 xs:col-span-1">
+        <label className="text-gray-700 text-sm font-bold md:col-span-2 xs:col-span-1 dark:text-white">
           Phone
           <input
             type="number"
-            className="border rounded w-full py-1 px-2 font-normal"
+            className="border rounded w-full py-1 px-2 font-normal text-gray-700"
             {...register('phone', {
               required: 'This field is required',
               maxLength: {
@@ -159,11 +161,11 @@ const Register = () => {
         </label>
       </div>
 
-      <label className="text-gray-700 text-sm font-bold flex-1">
+      <label className="text-gray-700 text-sm font-bold flex-1 dark:text-white">
         Password
         <input
           type="password"
-          className="border rounded w-full py-1 px-2 font-normal"
+          className="border rounded w-full py-1 px-2 font-normal text-gray-700"
           {...register('password', {
             required: 'This field is required',
             minLength: {
@@ -180,11 +182,11 @@ const Register = () => {
           <span className="text-red-500">{errors.password.message}</span>
         )}
       </label>
-      <label className="text-gray-700 text-sm font-bold flex-1">
+      <label className="text-gray-700 text-sm font-bold flex-1 dark:text-white">
         Confirm Password
         <input
           type="password"
-          className="border rounded w-full py-1 px-2 font-normal"
+          className="border rounded w-full py-1 px-2 font-normal text-gray-700"
           {...register('confirmPassword', {
             validate: (val) => {
               if (!val) {
@@ -211,7 +213,7 @@ const Register = () => {
           Create Account
         </button>
       </span>
-      <span className="text-sm">
+      <span className="text-sm dark:text-white">
         Already have an account?{' '}
         <Link className="underline" to="/sign-in">
           Sign In

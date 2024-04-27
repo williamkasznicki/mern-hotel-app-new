@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import * as apiClient from '../api-client';
 import { useAppContext } from '../contexts/AppContext';
 import { UserType } from '../../../backend/src/shared/types';
-import { FaCheckCircle } from 'react-icons/fa';
+import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import { phoneCode } from '../../../backend/src/shared/phoneCode';
 
 export type EditProfileFormData = {
@@ -94,11 +94,13 @@ const ViewProfile = () => {
   }
 
   return (
-    <div className='dark:bg-slate-800 p-5 rounded-md'>
+    <div className="dark:bg-slate-800 p-5 rounded-md">
       <h2 className="text-2xl font-bold mb-4 dark:text-white">Profile</h2>
       <form onSubmit={onSubmit} className="space-y-4">
         <div>
-          <label className="block font-bold mb-1 dark:text-white">First Name</label>
+          <label className="block font-bold mb-1 dark:text-white">
+            First Name
+          </label>
           <input
             type="text"
             {...register('firstName')}
@@ -114,7 +116,9 @@ const ViewProfile = () => {
         </div>
 
         <div>
-          <label className="block font-bold mb-1 dark:text-white">Last Name</label>
+          <label className="block font-bold mb-1 dark:text-white">
+            Last Name
+          </label>
           <input
             type="text"
             {...register('lastName')}
@@ -149,7 +153,24 @@ const ViewProfile = () => {
                 title="Email has been verified"
               />
             ) : (
-              <FaCheckCircle className="text-gray-300 ml-2" />
+              <FaTimesCircle className="text-red-500 ml-2" size={25}
+              title="Email is not verified"/>
+            )}
+            {!currentUser.isEmailVerified && (
+              <button
+                type="button"
+                className="bg-green-500 text-white whitespace-nowrap py-2 px-4 rounded hover:bg-teal-600 ml-2"
+                onClick={() => {
+                  apiClient.sendVerificationEmail(currentUser.email);
+                  showToast({
+                    message:
+                      'Verification email sent. Please check your inbox.',
+                    type: 'SUCCESS',
+                  });
+                }}
+              >
+                Verify Email
+              </button>
             )}
           </div>
           {errors.email && (
@@ -199,7 +220,9 @@ const ViewProfile = () => {
         {isEditing && (
           <>
             <div>
-              <label className="block font-bold mb-1 dark:text-white">Old Password</label>
+              <label className="block font-bold mb-1 dark:text-white">
+                Old Password
+              </label>
               <input
                 type="password"
                 {...register('oldPassword')}
@@ -208,7 +231,9 @@ const ViewProfile = () => {
               />
             </div>
             <div>
-              <label className="block font-bold mb-1 dark:text-white">New Password</label>
+              <label className="block font-bold mb-1 dark:text-white">
+                New Password
+              </label>
               <input
                 type="password"
                 {...register('password')}

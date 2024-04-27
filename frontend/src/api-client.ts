@@ -9,7 +9,7 @@ import {
   RoomNumberType,
   BookingType,
   ReviewType,
-  DashboardDataType
+  DashboardDataType,
 } from '../../backend/src/shared/types';
 import { BookingFormData } from './forms/BookingForm/BookingForm';
 import { EditProfileFormData } from './pages/ViewProfile';
@@ -98,7 +98,11 @@ export const signIn = async (formData: SignInFormData) => {
 
     return response.json();
   } catch (error) {
-    throw new Error(`Something went wrong: ${error}`);
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error('Something went wrong');
+    }
   }
 };
 
@@ -116,7 +120,11 @@ export const verifyToken = async () => {
 
     return response.json();
   } catch (error) {
-    throw new Error(`Something went wrong: ${error}`);
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error('Something went wrong');
+    }
   }
 };
 
@@ -135,7 +143,11 @@ export const signOut = async () => {
 
     return response.json();
   } catch (error) {
-    throw new Error(`Something went wrong: ${error}`);
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error('Something went wrong');
+    }
   }
 };
 
@@ -158,7 +170,73 @@ export const updateMe = async (userData: Partial<EditProfileFormData>) => {
 
     return response.json();
   } catch (error) {
-    throw new Error(`Something went wrong: ${error}`);
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error('Something went wrong');
+    }
+  }
+};
+
+export const sendVerificationEmail = async (email: string) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/api/auth/send-verification-email`,
+      {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.log('errorData.message ', errorData.message);
+      throw new Error(errorData.message || 'Failed to send verification email');
+    }
+
+    return response.json();
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error('Something went wrong');
+    }
+  }
+};
+
+export const forgotPassword = async (email: string) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/api/auth/send-forgotPasswordMail`,
+      {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.log('errorData.message ', errorData.message);
+      throw new Error(
+        errorData.message || 'Failed to send password reset email'
+      );
+    }
+
+    return response.json();
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error('Something went wrong');
+    }
   }
 };
 
