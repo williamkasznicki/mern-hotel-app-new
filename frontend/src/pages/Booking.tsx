@@ -72,7 +72,7 @@ const Booking = () => {
       onError: () => {
         showToast({
           message: 'Error creating paymentIntent',
-          type: 'ERROR',
+          type: 'WARNING',
         });
       },
     }

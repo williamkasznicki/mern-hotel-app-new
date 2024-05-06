@@ -8,6 +8,6 @@ router.get('/', verifyToken, getMyBookings);
 
 router.put('/:bookingId/cancel', verifyToken, cancelBooking);
 
-router.delete('/bookingId', verifyToken, deleteBooking);
+router.delete('/:bookingId', verifyToken, deleteBooking);
 
 export default router;

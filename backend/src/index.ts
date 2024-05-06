@@ -25,7 +25,7 @@ cloudinary.config({
 
 const connectMongoDB = async () => {
   try {
-    console.log(process.env.MONGODB_CONNECTION_STRING)
+    console.log(process.env.MONGODB_CONNECTION_STRING);
     await mongoose.connect(process.env.MONGODB_CONNECTION_STRING as string);
     console.log('MongoDB connected');
   } catch (error) {
@@ -35,8 +35,8 @@ const connectMongoDB = async () => {
 
 const app = express();
 
-app.use(cookieParser());
-app.use(express.json());
+app.use(cookieParser()); 
+app.use(express.json()); // to parse incoming requests with json payloads (req.body)
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
@@ -61,12 +61,15 @@ app.use('/api/dashboard', dashboardRoutes);
 // Catch-all route for serving frontend
 app.get('*', (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, '../../frontend/dist/index.html'));
+  console.log(`Received ${req.method} request for ${req.url}`);
 });
 
 // Error handling middleware
 app.use((err: any, req: Request, res: Response, next: Function) => {
   console.error(err.stack);
-  res.status(500).send('Something went wrong with server! Please try again later.');
+  res
+    .status(500)
+    .send('Something went wrong with server! Please try again later.');
 });
 
 const PORT = process.env.PORT || 7000;

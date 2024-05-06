@@ -8,6 +8,7 @@ import StarRatingFilter from '../components/StarRatingFilter';
 import HotelTypesFilter from '../components/HotelTypesFilter';
 import FacilitiesFilter from '../components/FacilitiesFilter';
 import PriceFilter from '../components/PriceFilter';
+import { useAppContext } from '../contexts/AppContext';
 
 const Search = () => {
   const search = useSearchContext();
@@ -18,6 +19,7 @@ const Search = () => {
   const [selectedPrice, setSelectedPrice] = useState<number | undefined>();
   const [sortOption, setSortOption] = useState<string>('');
   const [showFilter, setShowFilter] = useState(false);
+  const { showToast } = useAppContext();
 
   const searchParams = {
     destination: search.destination,
@@ -33,8 +35,19 @@ const Search = () => {
     sortOption,
   };
 
-  const { data: hotelData } = useQuery(['searchHotels', searchParams], () =>
-    apiClient.searchHotels(searchParams)
+  const { data: hotelData, isLoading } = useQuery(
+    ['searchHotels', searchParams],
+    () => apiClient.searchHotels(searchParams),
+    {
+      onError: (error) => {
+        let errorMessage = 'Error Adding new Hotel!';
+        // Check if the error has a message property
+        if (error instanceof Error && error.message) {
+          errorMessage = error.message;
+        }
+        showToast({ message: errorMessage, type: 'ERROR' });
+      },
+    }
   );
 
   const handleStarsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,7 +86,7 @@ const Search = () => {
     <div className="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-5">
       <div className="p-2 md:p-0">
         <button
-          className="flex items-center justify-center gap-2 mb-4 lg:hidden bg-yellow-300 p-2 rounded-md font-bold hover:bg-yellow-400 active:scale-95 text-white"
+          className="flex items-center justify-center gap-2 mb-4 lg:hidden bg-amber-400 p-2 rounded-md font-bold hover:bg-amber-500 active:scale-95 text-white"
           onClick={() => setShowFilter(!showFilter)}
         >
           <span>{showFilter ? 'Hide' : 'Show'} Filters</span>
@@ -148,7 +161,11 @@ const Search = () => {
           </select>
         </div>
         {hotelData?.data.map((hotel) => (
-          <SearchResultsCard key={hotel._id} hotel={hotel} />
+          <SearchResultsCard
+            key={hotel._id}
+            hotel={hotel}
+            isLoading={isLoading}
+          />
         ))}
         <div>
           <Pagination

@@ -3,6 +3,8 @@ import { HotelFormData } from './ManageHotelForm';
 import { HotelType } from '../../../../backend/src/shared/types';
 import { Tooltip } from 'react-tooltip';
 import JoditEditor from 'jodit-react';
+import HotelCoordinateGuildline from '../../assets/Hotel Coordinate Guildline.pdf';
+import { FaInfoCircle } from 'react-icons/fa';
 
 type Props = {
   hotel?: HotelType;
@@ -164,7 +166,7 @@ const DetailsSection = ({ hotel, editMode }: Props) => {
       </label>
       <div className="grid grid-cols-2 gap-4">
         <label className="text-gray-700 dark:text-white  text-sm font-bold">
-          Staring Price <small>(hover to see tooltip)</small>
+          Starting Price <small>(hover to see tooltip)</small>
           <input
             type="number"
             min={1}
@@ -217,12 +219,23 @@ const DetailsSection = ({ hotel, editMode }: Props) => {
         )}
       </label>
 
-      <div className="flex gap-4">
+      <div className="flex gap-4 items-center">
         <label className="text-gray-700 dark:text-white  text-sm font-bold flex-1">
-          Latitude <small>(optional)</small>
+          Latitude <small>(optional)</small>{' '}
+          <a href={HotelCoordinateGuildline}>
+            <FaInfoCircle
+              className="inline"
+              size={17}
+              data-tooltip-content="Download Guildline"
+              data-tooltip-id="coordinate-tooltip"
+              data-tooltip-place="top"
+              data-tooltip-delay-show={300}
+            />
+          </a>
+          <Tooltip id="coordinate-tooltip" className='dark:bg-black' />
           <input
             type="text"
-            className="border rounded w-full py-1 px-2 font-normal dark:text-zinc-800 bg-white"
+            className="border rounded w-full py-1 px-2 font-normal dark:text-zinc-800 bg-gray-00"
             {...register('coordinate.0')}
             disabled={!editMode}
           />
@@ -230,6 +243,7 @@ const DetailsSection = ({ hotel, editMode }: Props) => {
             <span className="text-red-500">{errors.coordinate[0].message}</span>
           )}
         </label>
+
         <label className="text-gray-700 dark:text-white  text-sm font-bold flex-1">
           Longitude <small>(optional)</small>
           <input

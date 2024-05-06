@@ -18,6 +18,7 @@ type SearchContext = {
     roomId?: string,
     roomNumberName?: string
   ) => void;
+  updateDates: (checkIn: Date, checkOut: Date) => void;
 };
 
 const SearchContext = React.createContext<SearchContext | undefined>(undefined);
@@ -60,6 +61,13 @@ export const SearchContextProvider = ({
 
   const [roomNumberName, setRoomNumberName] = useState<string>('');
 
+  const updateDates = (checkIn: Date, checkOut: Date) => {
+    setCheckIn(checkIn);
+    setCheckOut(checkOut);
+    sessionStorage.setItem('checkIn', checkIn.toISOString());
+    sessionStorage.setItem('checkOut', checkOut.toISOString());
+  };
+
   const saveSearchValues = (
     destination: string,
     checkIn: Date,
@@ -68,14 +76,13 @@ export const SearchContextProvider = ({
     childCount: number,
     hotelId?: string,
     roomId?: string,
-    roomNumberName?: string,
+    roomNumberName?: string
   ) => {
     setDestination(destination);
     setCheckIn(checkIn);
     setCheckOut(checkOut);
     setAdultCount(adultCount);
     setChildCount(childCount);
-    
 
     if (roomId) {
       setRoomId(roomId);
@@ -118,6 +125,7 @@ export const SearchContextProvider = ({
         hotelId,
         roomId,
         roomNumberName,
+        updateDates,
         saveSearchValues,
       }}
     >

@@ -253,7 +253,7 @@ export const deleteBooking = async (req: Request, res: Response) => {
     const booking = await Booking.findById(bookingId);
 
     if (!booking) {
-      return res.status(404).json({ message: 'Booking not found' });
+      return res.status(404).json({ message: 'Booking not found!' });
     }
 
     // Remove the booking ID from the hotel's bookings array

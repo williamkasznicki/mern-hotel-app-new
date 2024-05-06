@@ -23,7 +23,7 @@ const TypeSection = ({ editMode }: Props) => {
           <label
             className={
               typeWatch === type
-                ? "cursor-pointer bg-blue-300 text-sm rounded-full px-4 py-2 font-semibold truncate"
+                ? "cursor-pointer bg-blue-300 dark:bg-pink-400 text-sm rounded-full px-4 py-2 font-semibold truncate"
                 : "cursor-pointer bg-slate-300 text-sm rounded-full px-4 py-2 font-semibold truncate"}
             key={index}
           >

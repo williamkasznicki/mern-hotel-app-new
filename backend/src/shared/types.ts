@@ -58,6 +58,7 @@ export type BookingType = {
   citizen_id: string;
   totalCost: number;
   paymentIntentId: string;
+  isNewBooking: boolean;
   createdAt: Date;
   updatedAt: Date;
 };

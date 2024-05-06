@@ -168,7 +168,7 @@ const EditHotel = () => {
                             Confirm Delete
                           </h2>
                           <p>
-                            Are you sure you want to delete this RoomNumber?
+                            Are you sure you want to delete this <span className='text-red-500'>{room.roomType}</span> Room?
                           </p>
                           <div className="mt-4 flex justify-end">
                             <button

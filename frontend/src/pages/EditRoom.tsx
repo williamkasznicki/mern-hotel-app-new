@@ -5,6 +5,7 @@ import ManageRoomForm from '../forms/ManageRoomForm/ManageRoomForm';
 import { useAppContext } from '../contexts/AppContext';
 import { useState } from 'react';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { BiEditAlt, BiTrashAlt } from 'react-icons/bi';
 
 const EditRoom = () => {
   const { roomId } = useParams();
@@ -159,7 +160,7 @@ const EditRoom = () => {
               <h3 className="text-xl font-semibold dark:text-white">
                 {roomNumber.roomNumberName}
               </h3>
-              <div>
+              <div className='flex'>
                 <label className='dark:text-white text-xl'>
                   <input
                     type="checkbox"
@@ -173,23 +174,23 @@ const EditRoom = () => {
                 </label>
                 <Link
                   to={`/edit-room-number/${roomNumber._id}`}
-                  className="ml-2 edit-btn md:text-xl xs:whitespace-nowrap xs:text-sm dark:text-zinc-900"
+                  className="ml-2 edit-btn md:text-xl xs:whitespace-nowrap xs:text-sm dark:text-zinc-900 "
                 >
-                  Edit Name
+                    <BiEditAlt size={25}/>
                 </Link>
                 <button
                   type="button"
                   className="bg-rose-500 ml-2 text-white h-full p-2 font-bold text-xl active:scale-95 hover:bg-rose-600 rounded-md transition-colors ease-in duration-50"
                   onClick={toggleDeleteConfirmation}
                 >
-                  Delete
+                   <BiTrashAlt size={25}/>
                 </button>
               </div>
               {showDeleteConfirmation && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-800 bg-opacity-50">
                   <div className="bg-white rounded-lg p-6">
                     <h2 className="text-lg font-bold mb-4">Confirm Delete</h2>
-                    <p>Are you sure you want to delete this RoomNumber?</p>
+                    <p>Are you sure you want to delete this <span className='text-red-500'>{roomNumber.roomNumberName}</span> RoomNumber?</p>
                     <div className="mt-4 flex justify-end">
                       <button
                         className="px-4 py-2 bg-gray-500 ml-2 text-white h-full p-2 font-bold text-xl active:scale-95 hover:bg-gray-600 rounded-md transition-colors ease-in duration-50"

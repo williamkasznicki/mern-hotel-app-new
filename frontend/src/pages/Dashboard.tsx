@@ -25,12 +25,12 @@ ChartJS.register(
   LinearScale
 );
 
+
 const Dashboard = () => {
   const [selectedHotel, setSelectedHotel] = useState<string | null>(null);
   const { data: hotels } = useQuery('fetchMyHotels', apiClient.fetchMyHotels);
   const [timeRange, setTimeRange] = useState('All');
   const { mode } = useThemeMode();
-  console.log(mode);
 
   const { data: dashboardData, refetch } = useQuery(
     ['fetchDashboardData', selectedHotel],
@@ -82,7 +82,7 @@ const Dashboard = () => {
     : [];
 
   if (!hotels || !dashboardData) {
-    return <div>Loading...</div>;
+    return <div>No hotels or dashboard data found..</div>
   }
 
   const hotelOptions = hotels.map((hotel: HotelType) => ({
@@ -213,20 +213,14 @@ const Dashboard = () => {
                     data: filteredBookingStats.map(
                       (stat) => stat.successfulBookings
                     ),
-                    backgroundColor:
-                      mode === 'dark'
-                        ? '#885cef'
-                        : '#2463e3',
+                    backgroundColor: mode === 'dark' ? '#885cef' : '#2463e3',
                   },
                   {
                     label: 'Cancelled Bookings',
                     data: filteredBookingStats.map(
                       (stat) => stat.cancelledBookings
                     ),
-                    backgroundColor:
-                      mode === 'dark'
-                        ? '#2463e3'
-                        : '#ffce56',
+                    backgroundColor: mode === 'dark' ? '#2463e3' : '#ffce56',
                   },
                 ],
               }}

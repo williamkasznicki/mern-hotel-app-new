@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useParams, useNavigate } from 'react-router-dom';
 import * as apiClient from './../api-client';
@@ -19,6 +19,7 @@ import {
 } from 'react-icons/bs';
 import { GiPathDistance } from 'react-icons/gi';
 import { MdOutlineSportsTennis, MdOutlineDescription } from 'react-icons/md';
+import { Spinner } from 'flowbite-react';
 
 const Detail = () => {
   const { hotelId } = useParams<{ hotelId: string }>();
@@ -27,6 +28,51 @@ const Detail = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const search = useSearchContext();
   const navigate = useNavigate();
+
+  const [availableRooms, setAvailableRooms] = useState<RoomType[] | null>(null);
+  const [isAvailableRoomsLoading, setIsAvailableRoomsLoading] = useState(false);
+  const [isAvailableRoomsError, setIsAvailableRoomsError] = useState(false);
+
+  const {
+    data: hotel,
+    isLoading: isHotelLoading,
+    isError: isHotelError,
+  } = useQuery('fetchHotelById', () => apiClient.fetchHotelById(hotelId!), {
+    enabled: !!hotelId,
+  });
+
+  useEffect(() => {
+    const fetchAvailableRooms = async () => {
+      setIsAvailableRoomsLoading(true);
+      setIsAvailableRoomsError(false);
+
+      try {
+        const data = await apiClient.fetchAvailableRooms(
+          hotelId!,
+          search.checkIn,
+          search.checkOut
+        );
+        const roomsWithAvailableNumbers = data.filter((room) =>
+          room.roomNumbers.some((roomNumber) => !roomNumber.isOutOfService)
+        );
+        setAvailableRooms(roomsWithAvailableNumbers);
+        setIsRoomsAvailable(roomsWithAvailableNumbers.length > 0);
+        search.updateDates(search.checkIn, search.checkOut); // Update the dates in the search context
+      } catch (error) {
+        console.error('Error fetching available rooms:', error);
+        setIsAvailableRoomsError(true);
+      } finally {
+        setIsAvailableRoomsLoading(false);
+      }
+    };
+
+    if (hotelId && search.checkIn && search.checkOut) {
+      fetchAvailableRooms();
+    } else {
+      setAvailableRooms(null);
+      setIsRoomsAvailable(true);
+    }
+  }, [hotelId, search.checkIn, search.checkOut, search.updateDates]);
 
   const handleThumbnailClick = (index: number) => {
     setCurrentSlide(index);
@@ -39,29 +85,6 @@ const Detail = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-
-  const { data: hotel } = useQuery(
-    'fetchHotelById',
-    () => apiClient.fetchHotelById(hotelId!),
-    {
-      enabled: !!hotelId,
-    }
-  );
-
-  const { data: availableRooms } = useQuery(
-    ['availableRooms', hotelId, search.checkIn, search.checkOut],
-    () =>
-      apiClient.fetchAvailableRooms(hotelId!, search.checkIn, search.checkOut),
-    {
-      enabled: !!hotelId && !!search.checkIn && !!search.checkOut,
-      onSuccess: (data) => {
-        const roomsWithAvailableNumbers = data.filter((room) =>
-          room.roomNumbers.some((roomNumber) => !roomNumber.isOutOfService)
-        );
-        setIsRoomsAvailable(roomsWithAvailableNumbers.length > 0);
-      },
-    }
-  );
 
   const handleRoomSelect = async (room: RoomType) => {
     if (
@@ -105,6 +128,22 @@ const Detail = () => {
     setCurrentSlide(prevSlide);
   };
 
+  if (isHotelError || isAvailableRoomsError) {
+    return (
+      <div className="italic text-xl font-bold">
+        Error fetching data. Please try again later.
+      </div>
+    );
+  }
+
+  if (isHotelLoading || isAvailableRoomsLoading) {
+    return (
+      <div className="flex justify-center">
+        <Spinner color="purple" aria-label="Purple spinner" size={'xl'} />;
+      </div>
+    );
+  }
+
   if (!hotel) {
     return <div>Something went wrong! No hotel found.</div>;
   }
@@ -119,7 +158,6 @@ const Detail = () => {
       </div>
     );
   }
-
   return (
     <div className="space-y-7 md:space-x-0 xs:space-x-4">
       <div>
@@ -133,34 +171,37 @@ const Detail = () => {
               ))}
         </span>
         <h1 className="text-3xl font-bold">{hotel.name}</h1>
-        <h1 className="mt-1">
+
+        <p className="mt-1">
           <AiFillEnvironment className="fill-red-500 text-xl inline mr-1" />
-          {hotel.address}
-          <a
-            className="ml-2 text-xs underline text-red-700"
-            href={`https://www.google.com/maps/place/${hotel.coordinate[0]},${hotel.coordinate[1]}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Show on Google Map
-          </a>
-        </h1>
+          {hotel.city}, {hotel.country}, {hotel.address}
+          {hotel.coordinate[0].length > 0 && hotel.coordinate[1].length > 0 && (
+            <a
+              className="ml-2 text-xs underline text-red-700"
+              href={`https://www.google.com/maps/place/${hotel.coordinate[0]},${hotel.coordinate[1]}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Show on Google Map
+            </a>
+          )}
+        </p>
       </div>
 
       <div className="relative ">
-        <div className='max-h-[100vh]'>
+        <div className="max-h-[100vh] ">
           {hotel?.imageUrls?.map((image, index) => (
             <div
               key={index}
               className={`${
                 index === currentSlide ? 'block' : 'hidden'
-              } w-4/5 h-full mx-auto transition-opacity duration-500`}
+              } w-4/5 md:h-full mx-auto transition-opacity duration-500`}
             >
               <img
                 key={index}
                 src={image}
                 alt={hotel.name}
-                className="rounded-md w-full h-full object-cover object-center min-h-[500px] max-h-[500px]"
+                className="rounded-md w-full h-full object-cover object-center xs:max-h-[200px] md:min-h-[500px] max-h-[500px]"
               />
             </div>
           ))}
@@ -219,15 +260,15 @@ const Detail = () => {
       <h4 className="text-2xl font-semibold]">
         Landmarks <GiPathDistance className="inline ml-2" fill={''} size={24} />
       </h4>
-      <div className="grid grid-cols-2 lg:grid-cols-4 text-white px-2">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-1 text-white px-2">
         {hotel.landmarks.map((landmark, index) => (
           <>
             <div
               key={`${landmark}-${index}`}
-              className="border-2 bg-[#2a283a] dark:bg-slate-800 rounded-full p-3 px-4"
+              className="border-2 bg-[#2a283a] dark:bg-slate-800 g rounded-full p-3 px-4"
             >
               {landmark.name}
-              <span className="float-right">{landmark.distance} km.</span>
+              <span className="float-right">{landmark.distance} km</span>
             </div>
           </>
         ))}

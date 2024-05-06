@@ -162,7 +162,13 @@ const BookingForm = ({ currentUser, paymentIntent }: Props) => {
           <input
             className="mt-1 border rounded w-full py-2 px-3 text-gray-700 font-normal"
             type="text"
-            {...register('citizen_id', { required: 'Citizen ID is required' })}
+            {...register('citizen_id', {
+              required: 'Citizen ID is required',
+              maxLength: {
+                value: 20,
+                message: 'Maximum 20 characters!',
+              },
+            })}
           />
           {errors.citizen_id && (
             <span className="text-red-500">{errors.citizen_id.message}</span>

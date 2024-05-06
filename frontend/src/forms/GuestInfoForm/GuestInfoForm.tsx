@@ -3,6 +3,7 @@ import DatePicker from 'react-datepicker';
 import { useSearchContext } from '../../contexts/SearchContext';
 import { useAppContext } from '../../contexts/AppContext';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 type Props = {
   startingPrice: number;
@@ -51,6 +52,11 @@ const GuestInfoForm = ({
   const maxDate = new Date();
   maxDate.setFullYear(maxDate.getFullYear() + 1);
 
+  useEffect(() => {
+    setValue('checkIn', search.checkIn);
+    setValue('checkOut', search.checkOut);
+  }, [search.checkIn, search.checkOut, setValue]);
+
   const onSignInClick = (data: GuestInfoFormData) => {
     search.saveSearchValues(
       '',
@@ -65,6 +71,11 @@ const GuestInfoForm = ({
   };
 
   const onSubmit = (data: GuestInfoFormData) => {
+    if (data.checkOut.toDateString() === data.checkIn.toDateString()) {
+      alert('Please choose at least one night.');
+      return;
+    }
+
     search.saveSearchValues(
       '',
       data.checkIn,

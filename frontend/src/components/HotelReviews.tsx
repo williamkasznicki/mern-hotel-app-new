@@ -137,7 +137,7 @@ const HotelReviews: React.FC<Props> = ({ hotelId }) => {
   return (
     <div className="mt-2">
       <h2 className="text-2xl font-bold mb-4">
-        Reviews <MdOutlineReviews className="inline ml-1" size={24} />{' '}
+        Reviews <MdOutlineReviews className="inline ml-1" size={24} />{' '} 
       </h2>
       <div className="mb-4 bg-amber-50 dark:bg-slate-800 dark:text-gray-200 p-5 flex justify-between">
         <div className="flex items-center">
@@ -155,7 +155,7 @@ const HotelReviews: React.FC<Props> = ({ hotelId }) => {
             }`}
             onClick={() => handleFilterChange(null)}
           >
-            All
+            All ({data?.reviews.length})
           </button>
           {ratingCounts.map((rc) => (
             <button

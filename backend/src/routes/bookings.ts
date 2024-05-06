@@ -6,5 +6,4 @@ const router = express.Router();
 
 router.get('/:bookingId', verifyToken, getBookingById);
 
-
 export default router;

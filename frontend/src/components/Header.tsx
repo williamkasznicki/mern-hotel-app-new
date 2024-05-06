@@ -8,13 +8,13 @@ import { RiAccountCircleFill } from 'react-icons/ri';
 import { LuHotel, LuConciergeBell } from 'react-icons/lu';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import { useThemeMode } from 'flowbite-react';
-
 import * as apiClient from '../api-client';
 
 const Header = () => {
   const { isLoggedIn } = useAppContext();
   const [showMenu, setShowMenu] = useState(false);
   const [showSettingsMenu, setShowSettingsMenu] = useState(false);
+
   const { mode, toggleMode } = useThemeMode();
   const settingsMenuRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -68,7 +68,7 @@ const Header = () => {
   }, []);
 
   return (
-    <div className="bg-slate-900 py-5 xs:px-2">
+    <div className="sticky top-0 z-50 bg-slate-900 py-5 xs:px-2">
       <div className="container mx-auto flex justify-between">
         <span className="xs:text-3xl lg:text-4xl text-white font-bold tracking-tight">
           <Link to="/" id="auto-type">
@@ -77,6 +77,17 @@ const Header = () => {
         </span>
         {/* responsive menu start */}
         <span className="flex items-center space-x-2 md:hidden z-20">
+          <button
+            type="button"
+            className="flex items-center text-lg text-slate-800 px-3 py-1.5 font-bold rounded transition ease-in-out hover:duration-400 outline-none"
+            onClick={toggleMode}
+          >
+            {mode === 'dark' ? (
+              <FaSun className="text-yellow-300 mr-2" size={18} />
+            ) : (
+              <FaMoon className="text-gray-600 mr-2" size={18} />
+            )}{' '}
+          </button>
           <button
             className="text-white"
             onClick={toggleMenu}
@@ -104,7 +115,7 @@ const Header = () => {
             className="container md:hidden absolute top-16 text-black w-full h-auto z-10"
             ref={menuRef}
           >
-            <div className="flex flex-col bg-white p-2 rounded-md">
+            <div className="flex flex-col bg-white p-2 rounded-md shadow-md">
               {isLoggedIn ? (
                 <>
                   <Link
@@ -156,7 +167,7 @@ const Header = () => {
                 My Bookings
               </Link>
               <Link
-                className="flex items-center xs:text-sm lg:text-lg text-white px-3 py-2 font-bold hover:bg-slate-700 rounded transition ease-in-out hover:duration-300"
+                className="flex items-center xs:text-sm lg:text-lg text-white px-3 py-2 font-bold hover:bg-slate-700 rounded transition ease-in-out hover:duration-300 relative"
                 to="/my-hotels"
               >
                 <LuHotel className="mr-2 text-2xl" />
