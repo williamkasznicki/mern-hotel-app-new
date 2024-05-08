@@ -3,9 +3,10 @@ import cloudinary from 'cloudinary';
 import Hotel from '../models/hotel';
 import Booking from '../models/booking';
 import Room from '../models/room';
-import Review from '../models/review';
+import { Types } from 'mongoose';
 import { validationResult } from 'express-validator';
 import { HotelType } from '../shared/types';
+import { Decimal128 } from 'bson';
 
 export const uploadImages = async (imageFiles: Express.Multer.File[]) => {
   const uploadPromises = imageFiles.map(async (image) => {
@@ -226,8 +227,13 @@ export const updateHotelStartingPrice = async (hotelId: string) => {
       .select('pricePerNight');
 
     if (minPriceRoom) {
+      // Convert the number to Decimal128
+      const startingPrice = Types.Decimal128.fromString(
+        minPriceRoom.pricePerNight.toString()
+      );
+
       // Update the startingPrice field in the Hotel model
-      hotel.startingPrice = minPriceRoom.pricePerNight;
+      hotel.startingPrice = startingPrice as Decimal128; // Ensure to cast as Decimal128
       await hotel.save();
 
       console.log('startingPrice updated successfully.');

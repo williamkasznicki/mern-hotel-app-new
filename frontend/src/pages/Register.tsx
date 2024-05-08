@@ -69,12 +69,12 @@ const Register = () => {
 
   return (
     <form
-      className="flex flex-col gap-5 xs:px-4 dark:bg-slate-800 p-4 rounded-md"
+      className="flex flex-col gap-5 xs:px-4 dark:bg-slate-800 p-4 rounded-md duration-300"
       onSubmit={onSubmit}
     >
-      <h2 className="text-3xl font-bold dark:text-white">Create an Account</h2>
+      <h2 className="text-3xl font-bold dark:text-white duration-300">Create an Account</h2>
       <div className="flex flex-col md:flex-row gap-5">
-        <label className="text-gray-700 text-sm font-bold flex-1 dark:text-white">
+        <label className="text-gray-700 text-sm font-bold flex-1 dark:text-white duration-300">
           First Name
           <input
             className="border rounded w-full py-1 px-2 font-normal border-gray-500 text-gray-700"
@@ -90,7 +90,7 @@ const Register = () => {
             <span className="text-red-500">{errors.firstName.message}</span>
           )}
         </label>
-        <label className="text-gray-700 text-sm font-bold flex-1 dark:text-white">
+        <label className="text-gray-700 text-sm font-bold flex-1 dark:text-white duration-300">
           Last Name
           <input
             className="border rounded w-full py-1 px-2 font-normal border-gray-500 text-gray-700"
@@ -109,7 +109,7 @@ const Register = () => {
       </div>
 
       <div className="grid md:grid-cols-6 xs:grid-cols-2 gap-5">
-        <label className="text-gray-700 text-sm font-bold md:col-span-3 xs:col-span-2 dark:text-white">
+        <label className="text-gray-700 text-sm font-bold md:col-span-3 xs:col-span-2 dark:text-white duration-300">
           Email
           <input
             type="email"
@@ -127,7 +127,7 @@ const Register = () => {
           )}
         </label>
 
-        <label className="text-gray-700 text-sm font-bold md:col-span-1 xs:col-span-1 dark:text-white">
+        <label className="text-gray-700 text-sm font-bold md:col-span-1 xs:col-span-1 dark:text-white duration-300">
           Country Code
           <select
             className="border rounded w-full py-1 px-2 font-normal text-gray-700"
@@ -142,7 +142,7 @@ const Register = () => {
           </select>
         </label>
 
-        <label className="text-gray-700 text-sm font-bold md:col-span-2 xs:col-span-1 dark:text-white">
+        <label className="text-gray-700 text-sm font-bold md:col-span-2 xs:col-span-1 dark:text-white duration-300">
           Phone
           <input
             type="number"
@@ -161,7 +161,7 @@ const Register = () => {
         </label>
       </div>
 
-      <label className="text-gray-700 text-sm font-bold flex-1 dark:text-white">
+      <label className="text-gray-700 text-sm font-bold flex-1 dark:text- duration-300">
         Password
         <input
           type="password"
@@ -182,7 +182,7 @@ const Register = () => {
           <span className="text-red-500">{errors.password.message}</span>
         )}
       </label>
-      <label className="text-gray-700 text-sm font-bold flex-1 dark:text-white">
+      <label className="text-gray-700 text-sm font-bold flex-1 dark:text-white duration-300">
         Confirm Password
         <input
           type="password"
@@ -213,7 +213,7 @@ const Register = () => {
           Create Account
         </button>
       </span>
-      <span className="text-sm dark:text-white">
+      <span className="text-sm dark:text-white duration-300">
         Already have an account?{' '}
         <Link className="underline" to="/sign-in">
           Sign In

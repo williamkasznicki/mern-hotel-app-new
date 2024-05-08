@@ -75,7 +75,7 @@ const MyHotels = () => {
               hotelData?.map((hotel) => (
                 <div
                   data-testid="hotel-card"
-                  className="flex flex-col justify-between border border-slate-300 dark:bg-slate-800 dark:text-white  rounded-lg p-8 gap-5"
+                  className="flex flex-col justify-between border border-slate-300 dark:bg-slate-800 dark:text-white  rounded-lg p-8 gap-5 duration-300"
                   key={hotel._id}
                 >
                   <Link
@@ -101,7 +101,10 @@ const MyHotels = () => {
                       {hotel.type}
                     </div>
                     <div className="border border-slate-300 rounded-sm p-3 flex items-center">
-                      <BiMoney className="mr-1" />฿{hotel.startingPrice ?? '0'}{' '}
+                      <BiMoney className="mr-1" /> ฿
+                      {hotel.startingPrice
+                        ? (hotel.startingPrice as any).$numberDecimal
+                        : '0'}{' '}
                       /night
                     </div>
                     <div className="border border-slate-300 rounded-sm p-3 flex items-center">

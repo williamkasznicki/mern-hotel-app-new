@@ -23,9 +23,11 @@ import HotelBookings from './pages/HotelBookings';
 import BookingDetails from './components/BookingDetails';
 import ViewProfile from './pages/ViewProfile';
 import Dashboard from './pages/Dashboard';
+import AdminDashboard from './pages/Admin/AdminDashboard';
 
 const App = () => {
-  const { isLoggedIn } = useAppContext();
+  const { isLoggedIn, isSuperAdmin } = useAppContext();
+
   return (
     <Router>
       <Routes>
@@ -170,8 +172,13 @@ const App = () => {
                 </Layout>
               }
             />
+            {isSuperAdmin && (
+              <>
+                <Route path="/admin-dashboard" element={<AdminDashboard />} />
+              </>
+            )}
           </>
-        )}
+      )}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>

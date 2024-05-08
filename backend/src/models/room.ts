@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { Decimal128 } from 'mongodb';
 import { RoomType, RoomNumberType } from '../shared/types';
 
 const roomNumberSchema = new mongoose.Schema<RoomNumberType>(
@@ -18,7 +19,7 @@ const roomSchema = new mongoose.Schema<RoomType>(
     hotelId: { type: String, required: true },
     roomType: { type: String, required: true },
     description: { type: String, required: true },
-    pricePerNight: { type: Number, required: true },
+    pricePerNight: { type: Decimal128, required: true },
     roomFacilities: { type: [String], required: true },
     maxAdult: { type: Number },
     maxChild: { type: Number },
@@ -29,4 +30,4 @@ const roomSchema = new mongoose.Schema<RoomType>(
   { timestamps: true }
 );
 
-export default mongoose.model<RoomType>('Room', roomSchema);
+export default mongoose.model<RoomType>('Room', roomSchema, 'roomTypes');

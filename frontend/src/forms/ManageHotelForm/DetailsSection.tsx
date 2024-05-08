@@ -170,8 +170,8 @@ const DetailsSection = ({ hotel, editMode }: Props) => {
           <input
             type="number"
             min={1}
-            className="border rounded w-full py-1 px-2 font-normal cursor-not-allowed bg-zinc-700 text-white dark:text-zinc-800"
-            {...register('startingPrice')}
+            className="border rounded w-full py-1 px-2 font-bold cursor-not-allowed bg-zinc-700 text-white "
+            {...register('startingPrice.$numberDecimal')}
             disabled={true}
             data-tooltip-id="startingPrice-tooltip"
             data-tooltip-content="This field is automatically updated when you create, update, or delete rooms."
@@ -179,7 +179,7 @@ const DetailsSection = ({ hotel, editMode }: Props) => {
             data-tooltip-delay-show={700}
           ></input>
           {errors.startingPrice && (
-            <span className="text-red-500">{errors.startingPrice.message}</span>
+            <span className="text-red-500">{errors.startingPrice.message?.toString()}</span>
           )}
         </label>
         <Tooltip id="startingPrice-tooltip" />

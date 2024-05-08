@@ -168,7 +168,7 @@ export const getResetPassword = async (req: Request, res: Response) => {
         )
         .replace(
           '${p}',
-          '<p class="text-gray-700">The link has reached the 1 hour limit. <br>Please try again or contact admin. <br>Return to <a href="http://localhost:5174/" class="text-indigo-500">Booking.com</a></p>'
+          '<p class="text-gray-700">The link has reached the 1 hour limit. <br>Please try again or contact admin. <br>Return to <a href="http://localhost:5174/" class="text-indigo-500">BookEzy.com</a></p>'
         )
         .replace('${email}', decoded.email);
       return res.status(400).send(modifiedHtml);

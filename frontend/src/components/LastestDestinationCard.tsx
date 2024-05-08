@@ -17,7 +17,7 @@ const LatestDestinationCard = ({ hotel }: Props) => {
           <div key={index}>
             <img
               src={imageUrl}
-              className="w-full h-full object-cover object-center"
+              className="w-full h-full object-cover object-center bg-no-repeat"
               alt={hotel.name}
             />
           </div>
@@ -25,10 +25,10 @@ const LatestDestinationCard = ({ hotel }: Props) => {
       </div>
 
       <div className="absolute bottom-0 p-3 bg-black bg-opacity-50 w-full rounded-b-md flex items-center">
-        <span className="text-white font-bold tracking-tight text-3xl">
+        <span className="text-white font-bold tracking-tight text-2xl line-clamp-2">
           {hotel.name}
         </span>
-        <span className="ml-4 text-white tracking-tight bg-red-500 p-1 rounded-md">
+        <span className="ml-4 text-white tracking-tight bg-red-500 p-1 rounded-md  whitespace-nowrap">
           <AiFillEnvironment className="inline fill-white text-xl mr-0.5" />
           {hotel.city}, {hotel.country}
         </span>

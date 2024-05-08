@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
 type Props = {
-  startingPrice: number;
+  startingPrice: any;
   onBookNowClick: () => void;
   isRoomsAvailable: boolean;
 };
@@ -89,9 +89,9 @@ const GuestInfoForm = ({
   };
 
   return (
-    <div className="flex flex-col p-4 bg-blue-200 dark:bg-indigo-400 gap-5 rounded-sm">
+    <div className="flex flex-col p-4 bg-blue-200 dark:bg-indigo-400 gap-5 rounded-md">
       <h3 className="text-lg font-bold">
-        ฿{startingPrice ? startingPrice : 0} /Night
+        ฿{startingPrice ? (startingPrice as any).$numberDecimal : 0} /Night
       </h3>
       <form
         onSubmit={
@@ -183,7 +183,7 @@ const GuestInfoForm = ({
           ) : (
             <button
               type="button"
-              className="bg-indigo-600 dark:bg-rose-300 text-white h-full p-2 font-bold hover:bg-indigo-500 text-xl"
+              className="bg-indigo-600 dark:bg-rose-400 text-white h-full p-2 font-bold hover:bg-rose-500 dark:hover:bg-indigo-600 text-xl duration-300"
               onClick={handleSubmit(onSignInClick)}
             >
               Sign in to Book

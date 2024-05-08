@@ -15,6 +15,7 @@ import {
   roomNumberRoutes,
   BookingRoutes,
   dashboardRoutes,
+  adminRoutes
 } from './routes';
 
 cloudinary.config({
@@ -57,6 +58,7 @@ app.use('/api/my-hotels', myHotelRoutes);
 app.use('/api/my-bookings', myBookingRoutes);
 app.use('/api/my-roomNumbers', roomNumberRoutes);
 app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Catch-all route for serving frontend
 app.get('*', (req: Request, res: Response) => {
@@ -72,7 +74,7 @@ app.use((err: any, req: Request, res: Response, next: Function) => {
     .send('Something went wrong with server! Please try again later.');
 });
 
-const PORT = process.env.PORT || 7000;
+const PORT = process.env.BACKEND_PORT || 7000;
 
 app.listen(PORT, () => {
   connectMongoDB();

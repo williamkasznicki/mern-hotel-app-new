@@ -389,7 +389,7 @@ const HotelBookings = () => {
                   {booking.citizen_id}
                 </td>
                 <td className="border border-gray-400 p-2">
-                  ฿{booking.totalCost}
+                  ฿{(booking.totalCost as any).$numberDecimal || '0'}
                 </td>
                 <td className="border border-gray-400 p-2 font-bold text-white">
                   <span

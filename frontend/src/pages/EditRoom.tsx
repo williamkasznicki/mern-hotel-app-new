@@ -173,8 +173,8 @@ const EditRoom = () => {
                   Out of Service
                 </label>
                 <Link
-                  to={`/edit-room-number/${roomNumber._id}`}
-                  className="ml-2 edit-btn md:text-xl xs:whitespace-nowrap xs:text-sm dark:text-zinc-900 "
+                to={`/edit-room-number/${roomNumber._id}`}
+                  className="ml-2 edit-btn md:text-xl xs:whitespace-nowrap xs:text-sm"
                 >
                     <BiEditAlt size={25}/>
                 </Link>

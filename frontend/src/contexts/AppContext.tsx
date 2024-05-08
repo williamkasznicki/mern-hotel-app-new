@@ -1,20 +1,21 @@
-import React, { useContext, useState } from "react";
-import Toast from "../components/Toast";
-import { useQuery } from "react-query";
-import * as apiClient from "../api-client";
-import { loadStripe, Stripe } from "@stripe/stripe-js";
+import React, { useContext, useState } from 'react';
+import Toast from '../components/Toast';
+import { useQuery } from 'react-query';
+import * as apiClient from '../api-client';
+import { loadStripe, Stripe } from '@stripe/stripe-js';
 
-const STRIPE_PUB_KEY = import.meta.env.VITE_STRIPE_PUB_KEY || "";
+const STRIPE_PUB_KEY = import.meta.env.VITE_STRIPE_PUB_KEY || '';
 
 type ToastMessage = {
   message: string;
-  type: "SUCCESS" | "ERROR" | "WARNING";
+  type: 'SUCCESS' | 'ERROR' | 'WARNING';
 };
 
 type AppContext = {
   showToast: (toastMessage: ToastMessage) => void;
   isLoggedIn: boolean;
   stripePromise: Promise<Stripe | null>;
+  isSuperAdmin: boolean;
 };
 
 const AppContext = React.createContext<AppContext | undefined>(undefined);
@@ -22,8 +23,8 @@ const AppContext = React.createContext<AppContext | undefined>(undefined);
 const stripePromise = loadStripe(STRIPE_PUB_KEY);
 
 /* **********************************************************************
-   *                            AppContext                             
-   ********************************************************************** */
+ *                            AppContext
+ ********************************************************************** */
 
 export const AppContextProvider = ({
   children,
@@ -33,9 +34,15 @@ export const AppContextProvider = ({
   const [toast, setToast] = useState<ToastMessage | undefined>(undefined);
 
   // since the validate-token api will throw out an error if there an error, so we can assign that error to the variable
-  const { isError } = useQuery("validateToken", apiClient.verifyToken, {
+  const { isError } = useQuery('validateToken', apiClient.verifyToken, {
     retry: false,
   });
+
+  const { data: user } = useQuery(
+    'fetchCurrentUser',
+    () => apiClient.fetchCurrentUser(),
+    { retry: false, enabled: !isError }
+  );
 
   return (
     <AppContext.Provider
@@ -45,6 +52,7 @@ export const AppContextProvider = ({
         },
         isLoggedIn: !isError,
         stripePromise,
+        isSuperAdmin: user?.isSuperAdmin || false,
       }}
     >
       {toast && (

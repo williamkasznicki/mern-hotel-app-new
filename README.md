@@ -42,7 +42,7 @@ cd mern-hotel-app-new
         SMTP_SECURE=
         SMTP_USER=
         SMTP_PASS=
-        SMTP_SENDER_NAME=Booking.com
+        SMTP_SENDER_NAME=BookEzy.com
         SMTP_SENDER_ADDRESS=
 
     ```

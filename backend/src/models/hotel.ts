@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { HotelType } from '../shared/types';
+import { Decimal128 } from 'mongodb';
 
 const hotelSchema = new mongoose.Schema<HotelType>(
   {
@@ -14,7 +15,7 @@ const hotelSchema = new mongoose.Schema<HotelType>(
     coordinate: { type: [String], default: [] },
     starRating: { type: Number, default: null, min: 1, max: 5 },
     allFacilities: { type: [String], default: [] },
-    startingPrice: { type: Number, default: null },
+    startingPrice: { type: Decimal128, default: null },
     imageUrls: [{ type: String, required: true }],
     deleted_at: { type: Date, default: null },
     room: { type: [String], default: [] },

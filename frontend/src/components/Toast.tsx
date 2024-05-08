@@ -20,11 +20,11 @@ const Toast = ({ message, type, onClose }: ToastProps) => {
 
   let styles: string = "";
     if (type === "SUCCESS") {
-      styles = "fixed bottom-20 right-4 z-50 px-4 py-2 rounded-md bg-green-600 text-white max-w-md"
+      styles = "fixed bottom-20 right-4 z-50 px-4 py-2 rounded-md bg-green-400 text-white max-w-md"
     } else if (type === "WARNING") {
-      styles = "fixed bottom-20 right-4 z-50 px-4 py-2 rounded-md bg-yellow-600 text-white max-w-md";
+      styles = "fixed bottom-20 right-4 z-50 px-4 py-2 rounded-md bg-yellow-400 text-white max-w-md";
     } else {
-      styles = "fixed bottom-20 right-4 z-50 px-4 py-2 rounded-md bg-red-600 text-white max-w-md";
+      styles = "fixed bottom-20 right-4 z-50 px-4 py-2 rounded-md bg-red-400 text-white max-w-md";
     }
 
   return (

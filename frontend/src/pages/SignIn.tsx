@@ -48,13 +48,13 @@ const { mode } = useThemeMode();
 
   return (
     <div className="grid xs:grid-cols-1 lg:grid-cols-2 gap-4">
-      <div className="dark:bg-slate-800 p-4 rounded-md">
+      <div className="dark:bg-slate-800 p-4 rounded-md duration-300">
         {showForgotPassword ? (
           <ForgotPassword onBack={() => setShowForgotPassword(false)} />
         ) : (
           <form className="flex flex-col gap-5 xs:px-2" onSubmit={onSubmit}>
-            <h2 className="text-3xl font-bold dark:text-white">Sign In</h2>
-            <label className="text-gray-700 text-sm font-bold flex-1 dark:text-white">
+            <h2 className="text-3xl font-bold dark:text-white duration-300">Sign In</h2>
+            <label className="text-gray-700 text-sm font-bold flex-1 dark:text-white duration-300">
               Email
               <input
                 type="email"
@@ -71,7 +71,7 @@ const { mode } = useThemeMode();
                 <span className="text-red-500">{errors.email.message}</span>
               )}
             </label>
-            <label className="text-gray-700 text-sm font-bold flex-1 dark:text-white">
+            <label className="text-gray-700 text-sm font-bold flex-1 dark:text-white duration-300">
               Password
               <input
                 type="password"
@@ -92,7 +92,7 @@ const { mode } = useThemeMode();
                 <span className="text-red-500">{errors.password.message}</span>
               )}
             </label>
-            <span className="flex items-center justify-between dark:text-white">
+            <span className="flex items-center justify-between dark:text-white duration-300">
               <span className="text-sm">
                 Not Registered?{' '}
                 <Link className="underline" to="/register">
@@ -106,7 +106,7 @@ const { mode } = useThemeMode();
                 Login
               </button>
             </span>
-            <span className="-mt-4 text-sm text-gray-600 dark:text-white">
+            <span className="-mt-4 text-sm text-gray-600 dark:text-white duration-300">
               Forgot password?{' '}
               <button
                 type="button"
@@ -122,7 +122,7 @@ const { mode } = useThemeMode();
       <div className="place-self-center xs:hidden w-full h-full lg:block">
         <img
           src={mode === "dark" ? "redloop.gif" : "SignInGif.gif"}
-          className="rounded-md w-full h-[320px] object-cover object-center"
+          className="rounded-md w-full h-[320px] object-cover object-center "
           alt=""
         />
       </div>

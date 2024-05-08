@@ -69,12 +69,12 @@ const Booking = () => {
       ),
     {
       enabled: !!hotelId && numberOfNights > 0 && !!room,
-      onError: () => {
-        showToast({
-          message: 'Error creating paymentIntent',
-          type: 'WARNING',
-        });
-      },
+      // onError: () => {
+      //   showToast({
+      //     message: 'Preparing paymentIntent',
+      //     type: 'WARNING',
+      //   });
+      // },
     }
   );
 

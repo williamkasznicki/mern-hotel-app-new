@@ -9,7 +9,7 @@ import FacilitiesSection from './FacilitiesSection';
 export type RoomFormData = {
   roomType: string;
   description: string;
-  pricePerNight: number;
+  pricePerNight: any;
   roomFacilities: string[];
   maxAdult: number;
   maxChild: number;

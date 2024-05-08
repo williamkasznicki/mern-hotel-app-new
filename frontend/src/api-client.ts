@@ -1039,7 +1039,7 @@ export const fetchHotelById = async (hotelId: string): Promise<HotelType> => {
 };
 
 /* **********************************************************************
- *                            Dashboard API
+ *                         Hotel Dashboard API
  ********************************************************************** */
 
 export const fetchDashboardData = async (
@@ -1057,6 +1057,205 @@ export const fetchDashboardData = async (
 
     if (!response.ok) {
       throw new Error('Error fetching dashboard data');
+    }
+
+    return response.json();
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error('Something went wrong');
+    }
+  }
+};
+
+/* **********************************************************************
+ *                            Admin API
+ ********************************************************************** */
+export const getAllUsers = async (
+  page: number,
+  limit: number,
+  sort: string,
+  order: string,
+  search: string
+): Promise<{
+  data: UserType[];
+  currentPage: number;
+  totalPages: number;
+  totalCount: number;
+}> => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/api/admin/users?page=${page}&limit=${limit}&sort=${sort}&order=${order}&search=${search}`,
+      {
+        credentials: 'include',
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error('Error fetching users');
+    }
+
+    return response.json();
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error('Something went wrong');
+    }
+  }
+};
+
+export const getAllHotels = async (
+  page: number,
+  limit: number,
+  sort: string,
+  order: string,
+  search: string
+): Promise<{
+  data: HotelType[];
+  currentPage: number;
+  totalPages: number;
+  totalCount: number;
+}> => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/api/admin/hotels?page=${page}&limit=${limit}&sort=${sort}&order=${order}&search=${search}`,
+      {
+        credentials: 'include',
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error('Error fetching hotels');
+    }
+
+    return response.json();
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error('Something went wrong');
+    }
+  }
+};
+
+export const getAllRooms = async (
+  page: number,
+  limit: number,
+  sort: string,
+  order: string,
+  search: string
+): Promise<{
+  data: RoomType[];
+  currentPage: number;
+  totalPages: number;
+  totalCount: number;
+}> => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/api/admin/rooms?page=${page}&limit=${limit}&sort=${sort}&order=${order}&search=${search}`,
+      {
+        credentials: 'include',
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error('Error fetching rooms');
+    }
+
+    return response.json();
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error('Something went wrong');
+    }
+  }
+};
+
+export const getAllBookings = async (
+  page: number,
+  limit: number,
+  sort: string,
+  order: string,
+  search: string
+): Promise<{
+  data: BookingType[];
+  currentPage: number;
+  totalPages: number;
+  totalCount: number;
+}> => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/api/admin/bookings?page=${page}&limit=${limit}&sort=${sort}&order=${order}&search=${search}`,
+      {
+        credentials: 'include',
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error('Error fetching bookings');
+    }
+
+    return response.json();
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error('Something went wrong');
+    }
+  }
+};
+
+export const getAllReviews = async (
+  page: number,
+  limit: number,
+  sort: string,
+  order: string,
+  search: string
+): Promise<{
+  data: ReviewType[];
+  currentPage: number;
+  totalPages: number;
+  totalCount: number;
+}> => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/api/admin/reviews?page=${page}&limit=${limit}&sort=${sort}&order=${order}&search=${search}`,
+      {
+        credentials: 'include',
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error('Error fetching reviews');
+    }
+
+    return response.json();
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error('Something went wrong');
+    }
+  }
+};
+
+export const getDashboardCounts = async (): Promise<{
+  userCount: number;
+  hotelCount: number;
+  roomCount: number;
+  reviewCount: number;
+  bookingCount: number;
+}> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/admin/dashboard-counts`, {
+      credentials: 'include',
+    });
+
+    if (!response.ok) {
+      throw new Error('Error fetching dashboard counts');
     }
 
     return response.json();

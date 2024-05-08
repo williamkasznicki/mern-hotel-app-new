@@ -19,7 +19,7 @@ export type HotelFormData = {
   allFacilities: string[];
   coordinate: string[];
   starRating: number;
-  startingPrice: number;
+  startingPrice: any;
   imageFiles: FileList | null;
   imageUrls: string[];
 };

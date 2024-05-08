@@ -108,7 +108,7 @@ const Search = () => {
           </svg>
         </button>
         <div
-          className={`rounded-lg border border-slate-300 dark:bg-slate-800 dark:text-white p-5 h-fit ${
+          className={`rounded-lg border border-slate-300 dark:bg-slate-800 dark:text-white p-5 h-fit duration-300 ${
             showFilter ? '' : 'hidden lg:block'
           }`}
         >

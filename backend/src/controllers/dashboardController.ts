@@ -21,10 +21,19 @@ export const getDashboardData = async (req: Request, res: Response) => {
     }[] = [];
     let totalRooms = 0;
     let availableRooms = 0;
+    let selectedHotelAvailableRooms = 0;
+    let totalBookings = 0;
+    let selectedHotelBookings = 0;
 
     for (const hotel of hotels) {
       hotelTypes[hotel.type] = (hotelTypes[hotel.type] || 0) + 1;
+
       const bookings = await Booking.find({ hotelId: hotel._id });
+      totalBookings += bookings.length;
+      if (hotel._id.toString() === hotelId) {
+        selectedHotelBookings = bookings.length;
+      }
+
       for (const booking of bookings) {
         const month = new Date(booking.createdAt).toLocaleString('default', {
           month: 'long',
@@ -33,8 +42,11 @@ export const getDashboardData = async (req: Request, res: Response) => {
         if (stat) {
           if (booking.status === 'PAID') {
             stat.successfulBookings++;
-            stat.revenue += booking.totalCost;
-            // ...
+            stat.revenue += parseFloat(booking.totalCost.toString()); // Convert Decimal128 to number
+            totalRevenue += parseFloat(booking.totalCost.toString()); // Convert Decimal128 to number
+            if (hotel._id.toString() === hotelId) {
+              hotelRevenue += parseFloat(booking.totalCost.toString()); // Convert Decimal128 to number
+            }
           } else if (booking.status === 'CANCELLED') {
             stat.cancelledBookings++;
           }
@@ -43,12 +55,15 @@ export const getDashboardData = async (req: Request, res: Response) => {
             month,
             successfulBookings: booking.status === 'PAID' ? 1 : 0,
             cancelledBookings: booking.status === 'CANCELLED' ? 1 : 0,
-            revenue: booking.status === 'PAID' ? booking.totalCost : 0,
+            revenue:
+              booking.status === 'PAID'
+                ? parseFloat(booking.totalCost.toString())
+                : 0, // Convert Decimal128 to number
           });
           if (booking.status === 'PAID') {
-            totalRevenue += booking.totalCost;
+            totalRevenue += parseFloat(booking.totalCost.toString()); // Convert Decimal128 to number
             if (hotel._id.toString() === hotelId) {
-              hotelRevenue += booking.totalCost;
+              hotelRevenue += parseFloat(booking.totalCost.toString()); // Convert Decimal128 to number
             }
           }
         }
@@ -56,22 +71,20 @@ export const getDashboardData = async (req: Request, res: Response) => {
 
       const rooms = await Room.find({ hotelId: hotel._id });
       totalRooms += rooms.length;
+
       for (const room of rooms) {
-        const isAvailable = !room.roomNumbers.some((roomNumber) =>
-          roomNumber.unavailableDates.some(
-            (date) => new Date(date) >= new Date()
-          )
+        const isAvailable = !room.roomNumbers.some(
+          (roomNumber) => roomNumber.isOutOfService
         );
         if (isAvailable) {
           availableRooms++;
+          if (hotel._id.toString() === hotelId) {
+            selectedHotelAvailableRooms++;
+          }
         }
       }
     }
 
-    const occupancyRate =
-      availableRooms === 0
-        ? 0
-        : ((totalRooms - availableRooms) / totalRooms) * 100;
     const availableRoomPercentage = (availableRooms / totalRooms) * 100;
 
     res.json({
@@ -79,8 +92,10 @@ export const getDashboardData = async (req: Request, res: Response) => {
       totalRevenue,
       hotelRevenue,
       bookingStats,
-      occupancyRate,
+      totalBookings,
+      selectedHotelBookings,
       availableRooms,
+      selectedHotelAvailableRooms,
       availableRoomPercentage,
     });
   } catch (error) {

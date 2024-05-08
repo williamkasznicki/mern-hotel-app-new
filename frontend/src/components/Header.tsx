@@ -4,14 +4,14 @@ import { Link } from 'react-router-dom';
 import { useAppContext } from '../contexts/AppContext';
 import SignOutButton from './SignOutButton';
 import Typed from 'typed.js';
-import { RiAccountCircleFill } from 'react-icons/ri';
+import { RiAccountCircleFill, RiDashboardLine } from 'react-icons/ri';
 import { LuHotel, LuConciergeBell } from 'react-icons/lu';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import { useThemeMode } from 'flowbite-react';
 import * as apiClient from '../api-client';
 
 const Header = () => {
-  const { isLoggedIn } = useAppContext();
+  const { isLoggedIn, isSuperAdmin } = useAppContext();
   const [showMenu, setShowMenu] = useState(false);
   const [showSettingsMenu, setShowSettingsMenu] = useState(false);
 
@@ -33,7 +33,7 @@ const Header = () => {
     const targetElement = document.getElementById('auto-type');
 
     const options = {
-      strings: ['Booking.com'],
+      strings: ['BookEzy.com'],
       typeSpeed: 70,
       showCursor: false,
     };
@@ -72,7 +72,7 @@ const Header = () => {
       <div className="container mx-auto flex justify-between">
         <span className="xs:text-3xl lg:text-4xl text-white font-bold tracking-tight">
           <Link to="/" id="auto-type">
-            HotelBooking.com
+          BookEzy.com
           </Link>
         </span>
         {/* responsive menu start */}
@@ -140,7 +140,19 @@ const Header = () => {
                     <RiAccountCircleFill className="inline mr-2" size={18} />
                     Profile
                   </Link>
+                  {isSuperAdmin && (
+                    <>
+                      <Link
+                        to="/admin-dashboard"
+                        className="hover:bg-slate-800 hover:text-white p-2"
+                      >
+                        <RiDashboardLine className="inline mr-2" size={18} />
+                        Admin Dashboard
+                      </Link>
+                    </>
+                  )}
                   <hr className="my-2 border-t border-gray-700" />
+
                   <SignOutButton />
                 </>
               ) : (
@@ -183,7 +195,7 @@ const Header = () => {
                 </button>
                 {showSettingsMenu && (
                   <div className="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20 transition ease-in-out hover:duration-300">
-                    <div className="grid grid-cols-1 gap-2 p-2 rounded-sm">
+                    <div className="grid grid-pcols-1 gap-2 p-2 rounded-sm">
                       <Link
                         to="/view-profile"
                         className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-200 transition ease-in-out hover:duration-300"
@@ -191,6 +203,17 @@ const Header = () => {
                         Profile
                       </Link>
                       <hr className="border-b border-gray-300" />
+                      {isSuperAdmin && (
+                        <>
+                          <Link
+                            to="/admin-dashboard"
+                            className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-200 transition ease-in-out hover:duration-300"
+                          >
+                            Admin Dashboard
+                          </Link>
+                          <hr className="my-2 border-t border-gray-700" />
+                        </>
+                      )}
                       <SignOutButton />
                     </div>
                   </div>

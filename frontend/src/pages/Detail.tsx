@@ -250,7 +250,7 @@ const Detail = () => {
         {hotel.allFacilities.map((facility, index) => (
           <div
             key={`${facility}-${index}`}
-            className="border border-slate-300 dark:bg-slate-800 dark:text-white rounded-sm p-3"
+            className="border border-slate-300 dark:bg-slate-800 dark:text-white rounded-sm p-3 duration-300"
           >
             {facility}
           </div>
@@ -265,7 +265,7 @@ const Detail = () => {
           <>
             <div
               key={`${landmark}-${index}`}
-              className="border-2 bg-[#2a283a] dark:bg-slate-800 g rounded-full p-3 px-4"
+              className="border-2 bg-[#2a283a] dark:bg-slate-800 g rounded-full p-3 px-4 duration-300"
             >
               {landmark.name}
               <span className="float-right">{landmark.distance} km</span>
@@ -279,7 +279,7 @@ const Detail = () => {
       </h4>
       <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-5">
         <div
-          className="p-4 whitespace-pre-line dark:bg-slate-800 rounded-md dark:text-gray-200 "
+          className="p-4 whitespace-pre-line dark:bg-slate-800 rounded-md dark:text-gray-200 duration-300"
           dangerouslySetInnerHTML={{ __html: hotel.description }}
         ></div>
         <div className="h-fit">
@@ -327,7 +327,7 @@ const Detail = () => {
                     <p className="font-semibold">
                       • Price per night:{' '}
                       <span className="text-emerald-300">
-                        ${room.pricePerNight}
+                      ฿ {(room.pricePerNight as any) || 0}
                       </span>
                     </p>
                     <p>

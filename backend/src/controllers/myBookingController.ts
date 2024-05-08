@@ -6,6 +6,8 @@ import { BookingType } from '../shared/types';
 import { validationResult } from 'express-validator';
 import Stripe from 'stripe';
 import User from '../models/user';
+import { Decimal128 } from 'mongodb';
+import { sendBookingConfirmationEmail } from './emailController';
 
 const stripe = new Stripe(process.env.STRIPE_API_KEY as string, {
   apiVersion: '2023-10-16',
@@ -47,7 +49,7 @@ export const createPaymentIntent = async (req: Request, res: Response) => {
       return res.status(401).json({ message: 'Unauthorized: Missing userID' });
     }
 
-    const totalCost = room.pricePerNight * numberOfNights;
+    const totalCost = (room.pricePerNight as any).valueOf() * numberOfNights;
 
     const paymentIntent = await stripe.paymentIntents.create({
       amount: totalCost * 100, // Amount in cents
@@ -75,7 +77,9 @@ export const createPaymentIntent = async (req: Request, res: Response) => {
 
 export const getMyBookings = async (req: Request, res: Response) => {
   try {
-    const bookings = await Booking.find({ userId: req.userId });
+    const bookings = await Booking.find({ userId: req.userId }).sort({
+      createdAt: -1,
+    });
     res.status(200).json(bookings);
   } catch (error) {
     console.log(error);
@@ -156,6 +160,7 @@ export const createBooking = async (req: Request, res: Response) => {
       userId: req.userId,
       hotelId,
       status: req.body.status,
+      phone: req.body.phone,
       roomNumberId: availableRoomNumber._id.toString(),
       check_in: checkIn,
       check_out: checkOut,
@@ -171,6 +176,14 @@ export const createBooking = async (req: Request, res: Response) => {
 
     availableRoomNumber.bookingId.push(booking._id.toString());
     await room.save();
+    try {
+      await sendBookingConfirmationEmail(req.body.email, newBooking, hotel.name, room.roomType);
+    } catch (error) {
+      console.log(error);
+      return res
+        .status(500)
+        .json({ message: 'Unable to send booking details to Email' });
+    }
 
     res.status(201).json(newBooking);
   } catch (error) {
@@ -246,7 +259,7 @@ export const cancelBooking = async (req: Request, res: Response) => {
 };
 
 export const deleteBooking = async (req: Request, res: Response) => {
-  const bookingId = req.params.id;
+  const { bookingId } = req.params;
 
   try {
     // Find the booking by ID
@@ -289,7 +302,7 @@ export const deleteBooking = async (req: Request, res: Response) => {
     // Delete the booking from the bookings collection
     await Booking.deleteOne({ _id: bookingId });
 
-    res.sendStatus(204);
+    res.sendStatus(204).json({ message: 'Booking deleted successfully' });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: 'Unable to delete booking' });

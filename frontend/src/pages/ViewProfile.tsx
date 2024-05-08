@@ -100,11 +100,11 @@ const ViewProfile = () => {
           className="mx-auto"
         />
       ) : (
-        <div className="dark:bg-slate-800 p-5 rounded-md">
-          <h2 className="text-2xl font-bold mb-4 dark:text-white">Profile</h2>
+        <div className="dark:bg-slate-800 p-5 rounded-md duration-300">
+          <h2 className="text-2xl font-bold mb-4 dark:text-white duration-300">Profile</h2>
           <form onSubmit={onSubmit} className="space-y-4">
             <div>
-              <label className="block font-bold mb-1 dark:text-white">
+              <label className="block font-bold mb-1 dark:text-white duration-300">
                 First Name
               </label>
               <input
@@ -122,7 +122,7 @@ const ViewProfile = () => {
             </div>
 
             <div>
-              <label className="block font-bold mb-1 dark:text-white">
+              <label className="block font-bold mb-1 dark:text-white duration-300">
                 Last Name
               </label>
               <input
@@ -139,7 +139,7 @@ const ViewProfile = () => {
               )}
             </div>
             <div>
-              <label className="block font-bold mb-1 dark:text-white">
+              <label className="block font-bold mb-1 dark:text-white duration-300">
                 Email
               </label>
               <div className="flex items-center">
@@ -190,7 +190,7 @@ const ViewProfile = () => {
             </div>
             <div className="grid grid-cols-4 gap-3">
               {isEditing && (
-                <label className="text-blacktext-sm font-bold md:col-span-1 xs:col-span-1 self-center dark:text-white">
+                <label className="text-blacktext-sm font-bold md:col-span-1 xs:col-span-1 self-center dark:text-white duration-300">
                   Country Code
                   <select
                     className="border rounded w-full py-2 px-3 font-normal text-black"
@@ -207,7 +207,7 @@ const ViewProfile = () => {
                 </label>
               )}
               <label
-                className={`font-bold mb-1 dark:text-white ${
+                className={`font-bold mb-1 dark:text-white duration-300 ${
                   isEditing ? 'col-span-3' : 'col-span-4'
                 }`}
               >
@@ -215,7 +215,7 @@ const ViewProfile = () => {
                 <input
                   type="text"
                   {...register('phone')}
-                  className={`border rounded w-full py-2 px-3 font-normal dark:text-gray-800 ${
+                  className={`border rounded w-full py-2 px-3 font-normal dark:text-gray-800 duration-300 ${
                     errors.phone ? 'border-red-500' : ''
                   }`}
                   readOnly={!isEditing}
@@ -231,7 +231,7 @@ const ViewProfile = () => {
             {isEditing && (
               <>
                 <div>
-                  <label className="block font-bold mb-1 dark:text-white">
+                  <label className="block font-bold mb-1 dark:text-white duration-300">
                     Old Password
                   </label>
                   <input
@@ -253,7 +253,7 @@ const ViewProfile = () => {
                   />
                 </div>
                 <div>
-                  <label className="block font-bold mb-1 dark:text-white">
+                  <label className="block font-bold mb-1 dark:text-white duration-300">
                     Confirm New Password
                   </label>
                   <input

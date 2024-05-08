@@ -86,7 +86,7 @@ export const updateUser = async (req: Request, res: Response) => {
         process.env.JWT_SECRET_KEY as string,
         { expiresIn: '48h' }
       );
-      const verificationLink = `http://localhost:${process.env.PORT}/api/auth/verify-email?token=${verificationToken}`;
+      const verificationLink = `http://localhost:${process.env.BACKEND_PORT}/api/auth/verify-email?token=${verificationToken}`;
       await sendVerificationEmail(updatedFields.email, verificationLink);
       return res.status(200).send({
         message:

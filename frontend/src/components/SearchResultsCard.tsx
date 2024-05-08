@@ -13,13 +13,13 @@ type Props = {
 
 const customTheme: CustomFlowbiteTheme['carousel'] = {
   control: {
-    base: 'inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/80 group-hover:bg-white/60 group-focus:outline-none group-focus:ring-4 group-focus:ring-white/80 dark:bg-gray-800 dark:group-hover:bg-gray-800/60 dark:group-focus:ring-gray-800/70 sm:h-10 sm:w-10',
-    icon: 'h-5 w-5 text-red-500 dark:text-white sm:h-6 sm:w-6',
+    base: 'inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/80 group-hover:bg-white/60 group-focus:outline-none group-focus:ring-4 group-focus:ring-white/80 dark:bg-gray-800 dark:group-hover:bg-gray-800/60 dark:group-focus:ring-gray-800/70 sm:h-10 sm:w-10 duration-300',
+    icon: 'h-5 w-5 text-red-500 dark:text-white sm:h-6 sm:w-6 duration-300',
   },
   indicators: {
     active: {
-      off: 'bg-white/50 hover:bg-white dark:bg-white dark:hover:bg-gray-800/60',
-      on: 'bg-white dark:bg-gray-800',
+      off: 'bg-white/50 hover:bg-white dark:bg-white dark:hover:bg-gray-800/60 duration-300',
+      on: 'bg-white dark:bg-gray-800 duration-300',
     },
     base: 'h-3 w-3 rounded-full',
     wrapper: 'absolute bottom-5 left-1/2 flex -translate-x-1/2 space-x-3',
@@ -37,7 +37,7 @@ const SearchResultsCard = ({ hotel, isLoading }: Props) => {
           className="mx-auto"
         />
       ) : (
-        <div className="grid grid-cols-1 border border-slate-300 rounded-lg p-8 gap-8  dark:bg-slate-800 dark:text-white">
+        <div className="grid grid-cols-1 border border-slate-300 rounded-lg p-8 gap-8  dark:bg-slate-800 dark:text-white duration-300">
           <div className="w-full md:h-80 xl:h-96 xs:h-60 col-span-2">
             <Carousel theme={customTheme} color="primary">
               {hotel.imageUrls.map((imageUrl, index) => (
@@ -91,7 +91,7 @@ const SearchResultsCard = ({ hotel, isLoading }: Props) => {
                 {hotel.allFacilities.slice(0, 3).map((facility, index) => (
                   <span
                     key={index}
-                    className="bg-slate-300 p-2 rounded-lg font-bold xs:text-xs whitespace-nowrap md:text-sm  dark:text-gray-800"
+                    className="bg-slate-300 p-2 rounded-lg font-bold xs:text-xs whitespace-nowrap md:text-sm  dark:text-gray-800 duration-300"
                   >
                     {facility}
                   </span>
@@ -104,7 +104,7 @@ const SearchResultsCard = ({ hotel, isLoading }: Props) => {
 
               <div className="flex flex-col md:items-end gap-1">
                 <span className="font-bold text-2xl">
-                  ฿{hotel.startingPrice} /night
+                  ฿{(hotel.startingPrice as any).$numberDecimal || '0'} /night
                 </span>
                 <Link
                   to={`/detail/${hotel._id}`}

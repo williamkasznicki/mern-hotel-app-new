@@ -72,7 +72,7 @@ const BookingCard = ({ booking }: { booking: BookingType }) => {
           className="mx-auto"
         />
       ) : (
-        <div className="border border-gray-300 bg-white shadow-lg rounded-lg overflow-hidden dark:bg-slate-800 dark:text-white">
+        <div className="border border-gray-300 bg-white shadow-lg rounded-lg overflow-hidden dark:bg-slate-800 dark:text-white duration-300">
           <Link to={`/detail/${hotel?._id}`}>
             <div className="relative">
               <div
@@ -112,34 +112,34 @@ const BookingCard = ({ booking }: { booking: BookingType }) => {
               {hotel?.address}
             </h3>
             <small>Booking ID: {booking._id}</small>
-            <p className="text-gray-600 dark:text-white">
+            <p className="text-gray-600 dark:text-white duration-300">
               ID & Passport:{' '}
-              <span className="text-violet-600 dark:text-yellow-300">
+              <span className="text-violet-600 dark:text-yellow-300 duration-300">
                 {booking.citizen_id}
               </span>
             </p>
-            <p className="text-gray-600 dark:text-white">
+            <p className="text-gray-600 dark:text-white duration-300">
               Email:{' '}
-              <span className="text-violet-600 dark:text-yellow-300">
+              <span className="text-violet-600 dark:text-yellow-300 duration-300">
                 {booking.email}
               </span>
             </p>
-            <p className="text-gray-600 dark:text-white">
+            <p className="text-gray-600 dark:text-white duration-300">
               Check-in:{' '}
-              <span className="text-violet-600 dark:text-yellow-300">
+              <span className="text-violet-600 dark:text-yellow-300 duration-300">
                 {new Date(booking.check_in).toLocaleDateString()}
               </span>
             </p>
-            <p className="text-gray-600 dark:text-white">
+            <p className="text-gray-600 dark:text-white duration-300">
               Check-out:{' '}
-              <span className="text-violet-600 dark:text-yellow-300">
+              <span className="text-violet-600 dark:text-yellow-300 duration-300">
                 {new Date(booking.check_out).toLocaleDateString()}
               </span>
             </p>
-            <p className="text-gray-600 dark:text-white">
+            <p className="text-gray-600 dark:text-white duration-300">
               Total Cost:{' '}
-              <span className="text-violet-600 dark:text-yellow-300">
-                ฿{booking.totalCost}
+              <span className="text-violet-600 dark:text-yellow-300 duration-300">
+                ฿{(booking.totalCost as any).$numberDecimal || '0'}
               </span>
             </p>
             {/* {booking.status === 'CANCELLED' && (
@@ -158,7 +158,7 @@ const BookingCard = ({ booking }: { booking: BookingType }) => {
             </>
           )} */}
             <div className="flex justify-between align-items-center items-center">
-              <small className="text-neutral-900 font-semibold dark:text-sky-500">
+              <small className="text-neutral-900 font-semibold dark:text-sky-500 duration-300">
                 Booked at: {new Date(booking.createdAt).toLocaleString()}
               </small>
               {booking.status === 'PAID' && !isExpired() ? (
@@ -174,12 +174,14 @@ const BookingCard = ({ booking }: { booking: BookingType }) => {
           </div>
           {showCancelConfirmation && (
             <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-800 bg-opacity-50">
-              <div className="bg-white rounded-lg p-6">
-                <h2 className="text-lg font-bold mb-4">Confirm Cancellation</h2>
+              <div className="bg-white rounded-lg p-6 text-gray-800">
+                <h2 className="text-lg font-bold mb-4 ">
+                  Confirm Cancellation
+                </h2>
                 <p>Are you sure you want to cancel this booking?</p>
                 <div className="mt-4 flex justify-end">
                   <button
-                    className="px-4 py-2 bg-gray-500 ml-2 text-white h-full p-2 font-bold text-xl active:scale-95 hover:bg-gray-600 rounded-md transition-colors ease-in duration-50"
+                    className="px-4 py-2 bg-gray-500 text-white h-full p-2 font-bold text-xl active:scale-95 hover:bg-gray-600 rounded-md transition-colors ease-in duration-50"
                     onClick={toggleCancelConfirmation}
                   >
                     Cancel

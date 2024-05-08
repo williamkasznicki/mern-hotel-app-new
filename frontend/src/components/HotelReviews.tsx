@@ -45,10 +45,7 @@ const HotelReviews: React.FC<Props> = ({ hotelId }) => {
     () => apiClient.fetchCurrentUser(),
     {
       onError: () => {
-        showToast({
-          message: 'Error fetching user',
-          type: 'ERROR',
-        });
+       console.log("Error fetching current user");
       },
     }
   );
@@ -139,7 +136,7 @@ const HotelReviews: React.FC<Props> = ({ hotelId }) => {
       <h2 className="text-2xl font-bold mb-4">
         Reviews <MdOutlineReviews className="inline ml-1" size={24} />{' '} 
       </h2>
-      <div className="mb-4 bg-amber-50 dark:bg-slate-800 dark:text-gray-200 p-5 flex justify-between">
+      <div className="mb-4 bg-amber-50 dark:bg-slate-800 dark:text-gray-200 p-5 flex justify-between duration-300">
         <div className="flex items-center">
           {Array.from({ length: calculateAverageRating() }).map((_, index) => (
             <AiFillStar key={index} className="text-yellow-300" />
@@ -160,7 +157,7 @@ const HotelReviews: React.FC<Props> = ({ hotelId }) => {
           {ratingCounts.map((rc) => (
             <button
               key={rc._id}
-              className={`mr-2 bg-white px-3 py-2 border-2 hover:border-red-400 focus:border-red-400 focus:text-red-500 active:scale-95 dark:text-zinc-700 dark:focus:text-red-500 rounded-sm ${
+              className={`mr-2 bg-white px-3 py-2 border-2 hover:border-red-400 focus:border-red-400 focus:text-red-500 active:scale-95 dark:text-zinc-700 dark:focus:text-red-500 rounded-sm duration-300 ${
                 filterRating === rc._id ? 'font-bold' : 'font-bold'
               }`}
               onClick={() => handleFilterChange(rc._id)}
@@ -173,7 +170,7 @@ const HotelReviews: React.FC<Props> = ({ hotelId }) => {
       {reviews?.map((review) => (
         <div
           key={review._id}
-          className="grid grid-cols-2 border-b border-gray-200 pb-4 mb-4  dark:bg-zinc-100 p-2 rounded-sm"
+          className="grid grid-cols-2 border-b border-gray-200 pb-4 mb-4  dark:bg-zinc-100 p-2 rounded-sm duration-300"
         >
           <div className="grid grid-cols-1 mb-">
             <div className="flex">

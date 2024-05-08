@@ -1,3 +1,6 @@
+
+import { Decimal128 } from "mongodb";
+
 export type UserType = {
   _id: string;
   email: string;
@@ -23,7 +26,7 @@ export type HotelType = {
   coordinate: string[];
   starRating: number;
   allFacilities: string[];
-  startingPrice: number;
+  startingPrice: Decimal128;
   imageUrls: string[];
   deleted_at?: Date | null;
   room: string[];
@@ -45,6 +48,7 @@ export type ReviewType = {
 export type BookingType = {
   _id: string;
   hotelId: string;
+  hotelName: string;
   userId: string;
   email: string;
   phone: string;
@@ -56,7 +60,7 @@ export type BookingType = {
   status: string;
   cancelledBy?: string;
   citizen_id: string;
-  totalCost: number;
+  totalCost: Decimal128;
   paymentIntentId: string;
   isNewBooking: boolean;
   createdAt: Date;
@@ -68,7 +72,7 @@ export type RoomType = {
   hotelId: string;
   roomType: string;
   description: string;
-  pricePerNight: number;
+  pricePerNight: Decimal128;
   roomFacilities: string[];
   maxAdult: number;
   maxChild: number;
@@ -112,7 +116,9 @@ export type DashboardDataType = {
     cancelledBookings: number;
     revenue: number;
   }[];
-  occupancyRate: number;
+  totalBookings: number;
+  selectedHotelBookings: number;
   availableRooms: number;
+  selectedHotelAvailableRooms: number;
   availableRoomPercentage: number;
 };

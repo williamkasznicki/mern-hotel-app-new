@@ -7,5 +7,6 @@ export { default as userRoutes } from './users';
 export { default as roomRoutes } from './my-rooms';
 export { default as roomNumberRoutes } from './my-roomNumbers';
 export { default as dashboardRoutes } from './dashboard';
+export { default as adminRoutes } from './admin';
 
 

@@ -123,7 +123,7 @@ const EditHotel = () => {
                 >
                   <div className="xs:col-span-1 md:col-span-2">
                     <h3 className="text-xl font-semibold dark:text-white">{room.roomType}</h3>
-                    <span className="text-lg dark:text-white">{room.pricePerNight} THB</span>
+                    <span className="text-lg dark:text-white"> ฿ {(room.pricePerNight as any).$numberDecimal || 0}</span>
                     <p className="line-clamp-1 dark:text-white">{room.description}</p>
                     <div className="mt-2">
                       {room.roomFacilities

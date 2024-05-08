@@ -4,6 +4,7 @@ import User from '../models/user';
 import path from 'path';
 import fs from 'fs';
 import jwt from 'jsonwebtoken';
+import { BookingType } from '../shared/types';
 
 interface SenderAddress {
   name: string;
@@ -97,16 +98,16 @@ export const sendVerificationEmail = async (
     <body style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f2f2f2;">
       <div class="container" style="max-width: 600px; margin: 0 auto; background-color: #fff; padding: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
           <div class="logo" style="text-align: center; margin-bottom: 20px; background-color: #EF2C61; padding: 2px 0px 2px 0px;">
-              <h1>Booking.com</h1>
+              <h1>BookEzy.com</h1>
           </div>
           <div class="content" style="text-align: center; margin-bottom: 30px;">
               <h2>Email verification</h2>
               <p>Hi ${email},</p>
-              <p>You're almost set to start enjoying Booking.com. Simply click the link below to verify your email address and get started. The link expires in 48 hours.</p>
+              <p>You're almost set to start enjoying BookEzy.com. Simply click the link below to verify your email address and get started. The link expires in 48 hours.</p>
               <p class="margin: 0px 0px 6px 0px;">Please click the following link to verify your email address:</p>
               <a href="${verificationLink}" style="color: #007bff; font-size: 18px; padding: 8px; background-color: #EF2C61; border-radius: 5px; color: #000000; color: white; ">Verify Email</a>
           </div>
-          <p style="text-align: center;">&copy; 2024 Booking.com. All rights reserved.</p>
+          <p style="text-align: center;">&copy; 2024 BookEzy.com. All rights reserved.</p>
       </div>
     </body>
 `,
@@ -170,7 +171,7 @@ export const verifyEmail = async (req: Request, res: Response) => {
           )
           .replace(
             '${p}',
-            ' <p class="text-gray-700">the link has reaching the 48 hours limit. <br>please try again or contact admin. <br>return to <a href="http://localhost:5174/" class="text-indigo-500">Booking.com</a></p>'
+            ' <p class="text-gray-700">the link has reaching the 48 hours limit. <br>please try again or contact admin. <br>return to <a href="http://localhost:5174/" class="text-indigo-500">BookEzy.com</a></p>'
           )
           .replace('${email}', user.email);
         return res.status(400).send(modifiedHtml);
@@ -186,7 +187,7 @@ export const verifyEmail = async (req: Request, res: Response) => {
           )
           .replace(
             '${p}',
-            ' <p class="text-gray-700">please contact admin. <br>return to <a href="http://localhost:5174/login" class="text-indigo-500">Booking.com</a></p>'
+            ' <p class="text-gray-700">please contact admin. <br>return to <a href="http://localhost:5174/login" class="text-indigo-500">BookEzy.com</a></p>'
           )
           .replace('${email}', user.email);
         return res.status(400).send(modifiedHtml);
@@ -201,7 +202,7 @@ export const verifyEmail = async (req: Request, res: Response) => {
         )
         .replace(
           '${p}',
-          ' <p class="text-gray-700">Thank you for verifying your email. <br>return to <a href="http://localhost:5174/login" class="text-indigo-500">Booking.com</a></p>'
+          ' <p class="text-gray-700">Thank you for verifying your email. <br>return to <a href="http://localhost:5174/login" class="text-indigo-500">BookEzy.com</a></p>'
         )
         .replace('${email}', user.email);
 
@@ -239,7 +240,7 @@ export const sendVerificationEmailManual = async (
       process.env.JWT_SECRET_KEY as string,
       { expiresIn: '48h' }
     );
-    const verificationLink = `http://localhost:${process.env.PORT}/api/auth/verify-email?token=${verificationToken}`;
+    const verificationLink = `http://localhost:${process.env.BACKEND_PORT}/api/auth/verify-email?token=${verificationToken}`;
     await sendVerificationEmail(user.email, verificationLink);
 
     res.status(200).json({ message: 'Verification email sent successfully' });
@@ -265,7 +266,7 @@ export const sendResetPasswordMail = async (req: Request, res: Response) => {
       { expiresIn: '1h' }
     );
 
-    const resetLink = `http://localhost:${process.env.PORT}/api/auth/reset-password?token=${resetToken}`;
+    const resetLink = `http://localhost:${process.env.BACKEND_PORT}/api/auth/reset-password?token=${resetToken}`;
 
     // Create a Nodemailer transporter
     const transporter = nodemailer.createTransport({
@@ -291,7 +292,7 @@ export const sendResetPasswordMail = async (req: Request, res: Response) => {
         <body style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f2f2f2;">
           <div class="container" style="max-width: 600px; margin: 0 auto; background-color: #fff; padding: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
               <div class="logo" style="text-align: center; margin-bottom: 20px; background-color: #EF2C61; padding: 2px 0px 2px 0px;">
-                  <h1>Booking.com</h1>
+                  <h1>BookEzy.com</h1>
               </div>
               <div class="content" style="text-align: center; margin-bottom: 30px;">
                   <h2>Password Reset</h2>
@@ -299,7 +300,7 @@ export const sendResetPasswordMail = async (req: Request, res: Response) => {
                   <p>You have requested to reset your password. Please click the link below to reset your password:</p>
                   <a href="${resetLink}" style="color: #007bff; font-size: 18px; padding: 8px; background-color: #EF2C61; border-radius: 5px; color: #000000; color: white; ">Reset Password</a>
               </div>
-              <p style="text-align: center;">&copy; 2024 Booking.com. All rights reserved.</p>
+              <p style="text-align: center;">&copy; 2024 BookEzy.com. All rights reserved.</p>
           </div>
         </body>
       `,
@@ -311,5 +312,110 @@ export const sendResetPasswordMail = async (req: Request, res: Response) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: 'Something went wrong' });
+  }
+};
+
+export const sendBookingConfirmationEmail = async (
+  email: string,
+  bookingDetails: BookingType,
+  hotelName: string,
+  roomType: string
+) => {
+  const transporter = nodemailer.createTransport({
+    service: 'hotmail',
+    port: parseInt(process.env.SMTP_PORT as string) || 587,
+    secure: process.env.SMTP_SECURE === 'true',
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
+  });
+
+  const from: SenderAddress = {
+    name: process.env.SMTP_SENDER_NAME || '',
+    address: process.env.SMTP_SENDER_ADDRESS || '',
+  };
+
+  const mailOptions = {
+    from: from,
+    to: email,
+    subject: 'Booking Confirmation',
+    html: `
+      <body style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f2f2f2;">
+        <div class="container" style="max-width: 600px; margin: 0 auto; background-color: #fff; padding: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+          <div class="logo" style="text-align: center; margin-bottom: 20px; background-color: #EF2C61; padding: 2px 0px 2px 0px;">
+            <h1 style="color: #fff; font-size: 24px; margin: 0;">BookEzy.com</h1>
+          </div>
+          <div class="content" style="text-align: center; margin-bottom: 30px;">
+            <h2 style="color: #333; font-size: 20px;">Booking Confirmation</h2>
+            <p style="color: #666; font-size: 16px;">Hi ${email},</p>
+            <p style="color: #666; font-size: 16px;">Your booking has been confirmed. Here are the booking details:</p>
+            <table style="width: 100%; margin-top: 20px; border-collapse: collapse;">
+              <tr>
+                <td style="padding: 10px; border: 1px solid #ccc; text-align: left;"><strong>Hotel Name:</strong></td>
+                <td style="padding: 10px; border: 1px solid #ccc; text-align: left;">${hotelName}</td>
+              </tr>
+              <tr>
+                <td style="padding: 10px; border: 1px solid #ccc; text-align: left;"><strong>Citizen & Passport ID:</strong></td>
+                <td style="padding: 10px; border: 1px solid #ccc; text-align: left;">${
+                  bookingDetails.citizen_id
+                }</td>
+              </tr>
+              <tr>
+                <td style="padding: 10px; border: 1px solid #ccc; text-align: left;"><strong>Phone:</strong></td>
+                <td style="padding: 10px; border: 1px solid #ccc; text-align: left;">${
+                  bookingDetails.phone
+                }</td>
+              </tr>
+              <tr>
+                <td style="padding: 10px; border: 1px solid #ccc; text-align: left;"><strong>Status:</strong></td>
+                <td style="padding: 10px; border: 1px solid #ccc; text-align: left;">${
+                  bookingDetails.status
+                }</td>
+              </tr>
+            
+              <tr>
+                <td style="padding: 10px; border: 1px solid #ccc; text-align: left;"><strong>Room Type:</strong></td>
+                <td style="padding: 10px; border: 1px solid #ccc; text-align: left;">${roomType}</td>
+              </tr>
+              <tr>
+              <td style="padding: 10px; border: 1px solid #ccc; text-align: left;"><strong>Check-in Date:</strong></td>
+              <td style="padding: 10px; border: 1px solid #ccc; text-align: left;">${new Date(
+                bookingDetails.check_in
+              ).toLocaleDateString()}</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border: 1px solid #ccc; text-align: left;"><strong>Check-out Date:</strong></td>
+              <td style="padding: 10px; border: 1px solid #ccc; text-align: left;">${new Date(
+                bookingDetails.check_out
+              ).toLocaleDateString()}</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border: 1px solid #ccc; text-align: left;"><strong>Booked at:</strong></td>
+              <td style="padding: 10px; border: 1px solid #ccc; text-align: left;">${new Date().toLocaleString()}</td>
+            </tr>
+              <tr>
+                <td style="padding: 10px; border: 1px solid #ccc; text-align: left;"><strong>Total Cost:</strong></td>
+                <td style="padding: 10px; border: 1px solid #ccc; text-align: left;">${
+                  bookingDetails.totalCost
+                }</td>
+              </tr>
+            </table>
+            <p style="color: #666; font-size: 16px; margin-top: 20px;">Thank you for choosing BookEzy.com. We look forward to your stay!</p>
+          </div>
+          <div class="footer" style="text-align: center; margin-top: 30px; color: #999; font-size: 12px;">
+            <p>&copy; 2024 BookEzy.com. All rights reserved.</p>
+          </div>
+        </div>
+      </body>
+    `,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log('Booking confirmation email sent successfully');
+  } catch (error) {
+    console.error('Error sending booking confirmation email:', error);
+    throw new Error('Failed to send booking confirmation email');
   }
 };
