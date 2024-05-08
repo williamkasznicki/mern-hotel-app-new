@@ -44,8 +44,7 @@ cd mern-hotel-app-new
         SMTP_PASS=
         SMTP_SENDER_NAME=BookEzy.com
         SMTP_SENDER_ADDRESS=
-
-    ```
+      ```
 
 2. **MongoDB Setup**:
 
@@ -107,7 +106,7 @@ cd mern-hotel-app-new
    - Open a new terminal and navigate to the `frontend` directory.
    - Install dependencies: `npm install`.
    - Start the frontend application: `npm run dev`.
-   - The application should now be running on `http://localhost:5173` but verify this in your command line terminal
+   - The application should now be running on `http://localhost:5174` but verify this in your command line terminal
 
 ## Running Automated Tests
 
@@ -142,3 +141,4 @@ cd mern-hotel-app-new
    - Install dependencies: `npm install`.
    - Start the frontend and backend server using the steps above
    - [Using the Playwright extension to run the tests](https://playwright.dev/docs/getting-started-vscode#running-tests)
+NOTE: Testing still on progress at 10%

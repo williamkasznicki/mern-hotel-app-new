@@ -13,6 +13,7 @@ export default {
     },
     container: {
       padding: {
+        xs: '1rem',
         sm: '2rem',
         md: '2rem',
         lg: '6rem',

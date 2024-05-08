@@ -7,9 +7,8 @@ const Footer = () => {
         </span>
         <span className="text-slate md:tracking-tight flex gap-4 xs:text-sm md:text-base">
           <p>
-            All content on this site is © 2024 Booking Company. Ltd. All Rights
-            Reserved. Booking is affiliated with Booking Inc., a leading
-            provider of online travel and associated services worldwide.
+            All content on this site is © 2024 BookEzy Company. Ltd. All Rights
+            Reserved. <a href="#" className="text-blue-400">Term and Conditions</a>{'. or see our '}<a href="#" className="text-blue-400">Privacy Policy</a>. 
           </p>
         </span>
       </div>
