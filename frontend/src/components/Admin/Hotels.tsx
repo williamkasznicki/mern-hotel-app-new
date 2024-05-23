@@ -246,9 +246,9 @@ const Hotels = () => {
                 <td className="px-6 py-4">{hotel.city}</td>
                 <td className="px-6 py-4">{hotel.country}</td>
                 <td className="px-6 py-4">{hotel.type}</td>
-                <td className="px-6 py-4">{hotel.starRating}</td>
+                <td className="px-6 py-4">{hotel.starRating ?? 'Null'}</td>
                 <td className="px-6 py-4">
-                  ฿ {(hotel.startingPrice as any).$numberDecimal || '0'}
+                ฿ {(hotel.startingPrice as any)?.$numberDecimal ?? 'Null'}
                 </td>
                 <td className="px-6 py-4">
                   {hotel.deleted_at ? (

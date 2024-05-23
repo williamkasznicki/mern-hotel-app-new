@@ -264,7 +264,7 @@ const Bookings = () => {
                   {new Date(booking.check_out).toLocaleDateString()}
                 </td>
                 <td className="px-6 py-4">
-                  ฿ {(booking.totalCost as any).$numberDecimal || '0'}
+                  ฿ {(booking.totalCost as any)?.$numberDecimal ?? 'Null'}
                 </td>
                 <td className="px-6 py-4">{booking.status}</td>
                 <td className="px-6 py-4">

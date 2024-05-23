@@ -158,7 +158,7 @@ const Rooms = () => {
                 <td className="px-6 py-4">{room.hotelId}</td>
                 <td className="px-6 py-4">{room.roomType}</td>
                 <td className="px-6 py-4">
-                ฿ {(room.pricePerNight as any).$numberDecimal || '0'}
+                  ฿ {(room.pricePerNight as any)?.$numberDecimal ?? 'Null'}
                 </td>
                 <td className="px-6 py-4">{room.maxAdult}</td>
                 <td className="px-6 py-4">{room.maxChild}</td>
